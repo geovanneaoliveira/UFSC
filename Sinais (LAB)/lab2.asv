@@ -1,0 +1,6 @@
+t = [0:0.1:50];
+f = @(t) t.^2 + 2
+plot(t,f(t), 'linewidth', 4)
+a = @(t) 5*exp(-3*t)
+b = @(t) exp(-10*t)
+c = @(t) 2*exp
