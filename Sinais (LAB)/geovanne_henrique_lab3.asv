@@ -1,0 +1,16 @@
+set(0, 'DefaultLineLineWidth', 5); % muda o padrao espessura da linhas
+set(0,'defaultAxesFontSize',30) % muda o padrao tamanho de fonte de
+set(0,'DefaultAxesXGrid','on') % torna a grade em x padrao
+set(0,'DefaultAxesYGrid','on') % torna a grade em y padrao
+close all 
+
+
+figure(1) 
+
+u =@(t) heaviside(t);
+r =@(t) t.*u(t);
+t = -1:0.01:10;
+
+% a) x =@(t) 0.5*r(t) - 0.5*r(t-2) + u(t-2) + 0.5*r(t-2)-0.5*r(t-4) - 3*u(t-6);
+x =@(t) -2*r(t-1) +2;
+plot(t,x(t));
