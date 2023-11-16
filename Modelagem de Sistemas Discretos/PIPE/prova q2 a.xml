@@ -1,0 +1,600 @@
+<?xml version="1.0" encoding="ISO-8859-1"?><pnml>
+<net id="Net-One" type="P/T net">
+<token id="Default" enabled="true" red="0" green="0" blue="0"/>
+<place id="Finalizado">
+<graphics>
+<position x="590.4545454545454" y="240.00000000000009"/>
+</graphics>
+<name>
+<value>Finalizado</value>
+<graphics>
+<offset x="0.9090909090909067" y="23.63636363636364"/>
+</graphics>
+</name>
+<initialMarking>
+<value>Default,0</value>
+<graphics>
+<offset x="0.0" y="0.0"/>
+</graphics>
+</initialMarking>
+<capacity>
+<value>0</value>
+</capacity>
+</place>
+<place id="Perdido">
+<graphics>
+<position x="677.7272727272729" y="248.18181818181822"/>
+</graphics>
+<name>
+<value>Perdido</value>
+<graphics>
+<offset x="77.27272727272724" y="16.36363636363636"/>
+</graphics>
+</name>
+<initialMarking>
+<value>Default,0</value>
+<graphics>
+<offset x="0.0" y="0.0"/>
+</graphics>
+</initialMarking>
+<capacity>
+<value>0</value>
+</capacity>
+</place>
+<place id="Q1">
+<graphics>
+<position x="85.90909090909095" y="257.7272727272727"/>
+</graphics>
+<name>
+<value>Q1</value>
+<graphics>
+<offset x="26.36363636363636" y="-8.181818181818182"/>
+</graphics>
+</name>
+<initialMarking>
+<value>Default,0</value>
+<graphics>
+<offset x="0.0" y="0.0"/>
+</graphics>
+</initialMarking>
+<capacity>
+<value>0</value>
+</capacity>
+</place>
+<place id="Q2">
+<graphics>
+<position x="317.72727272727275" y="249.5454545454546"/>
+</graphics>
+<name>
+<value>Q2</value>
+<graphics>
+<offset x="0.0" y="-1.8181818181818181"/>
+</graphics>
+</name>
+<initialMarking>
+<value>Default,0</value>
+<graphics>
+<offset x="0.0" y="0.0"/>
+</graphics>
+</initialMarking>
+<capacity>
+<value>4</value>
+</capacity>
+</place>
+<place id="S1">
+<graphics>
+<position x="208.63636363636368" y="253.63636363636363"/>
+</graphics>
+<name>
+<value>S1</value>
+<graphics>
+<offset x="0.0" y="0.0"/>
+</graphics>
+</name>
+<initialMarking>
+<value>Default,0</value>
+<graphics>
+<offset x="0.0" y="0.0"/>
+</graphics>
+</initialMarking>
+<capacity>
+<value>0</value>
+</capacity>
+</place>
+<place id="S2">
+<graphics>
+<position x="436.3636363636363" y="188.18181818181827"/>
+</graphics>
+<name>
+<value>S2</value>
+<graphics>
+<offset x="0.0" y="0.0"/>
+</graphics>
+</name>
+<initialMarking>
+<value>Default,0</value>
+<graphics>
+<offset x="0.0" y="0.0"/>
+</graphics>
+</initialMarking>
+<capacity>
+<value>0</value>
+</capacity>
+</place>
+<place id="S3">
+<graphics>
+<position x="444.5454545454546" y="310.909090909091"/>
+</graphics>
+<name>
+<value>S3</value>
+<graphics>
+<offset x="0.0" y="0.0"/>
+</graphics>
+</name>
+<initialMarking>
+<value>Default,0</value>
+<graphics>
+<offset x="0.0" y="0.0"/>
+</graphics>
+</initialMarking>
+<capacity>
+<value>0</value>
+</capacity>
+</place>
+<transition id="Novo trabalho">
+<graphics>
+<position x="30.0" y="255.0"/>
+</graphics>
+<name>
+<value>Novo trabalho</value>
+<graphics>
+<offset x="46.81818181818181" y="46.81818181818181"/>
+</graphics>
+</name>
+<orientation>
+<value>0</value>
+</orientation>
+<rate>
+<value>1.0</value>
+</rate>
+<timed>
+<value>false</value>
+</timed>
+<infiniteServer>
+<value>false</value>
+</infiniteServer>
+<priority>
+<value>1</value>
+</priority>
+</transition>
+<transition id="S2 Finalizado">
+<graphics>
+<position x="544.090909090909" y="178.63636363636365"/>
+</graphics>
+<name>
+<value>S2 Finalizado</value>
+<graphics>
+<offset x="54.09090909090908" y="-9.545454545454533"/>
+</graphics>
+</name>
+<orientation>
+<value>0</value>
+</orientation>
+<rate>
+<value>1.0</value>
+</rate>
+<timed>
+<value>false</value>
+</timed>
+<infiniteServer>
+<value>false</value>
+</infiniteServer>
+<priority>
+<value>1</value>
+</priority>
+</transition>
+<transition id="S2 Quebrou">
+<graphics>
+<position x="586.3636363636363" y="103.63636363636373"/>
+</graphics>
+<name>
+<value>S2 Quebrou</value>
+<graphics>
+<offset x="38.63636363636363" y="-6.818181818181808"/>
+</graphics>
+</name>
+<orientation>
+<value>0</value>
+</orientation>
+<rate>
+<value>1.0</value>
+</rate>
+<timed>
+<value>false</value>
+</timed>
+<infiniteServer>
+<value>false</value>
+</infiniteServer>
+<priority>
+<value>1</value>
+</priority>
+</transition>
+<transition id="S3 Finalizado">
+<graphics>
+<position x="550.909090909091" y="301.3636363636363"/>
+</graphics>
+<name>
+<value>S3 Finalizado</value>
+<graphics>
+<offset x="45.0" y="45.9090909090909"/>
+</graphics>
+</name>
+<orientation>
+<value>0</value>
+</orientation>
+<rate>
+<value>1.0</value>
+</rate>
+<timed>
+<value>false</value>
+</timed>
+<infiniteServer>
+<value>false</value>
+</infiniteServer>
+<priority>
+<value>1</value>
+</priority>
+</transition>
+<transition id="S3 Quebrou">
+<graphics>
+<position x="590.4545454545454" y="372.2727272727272"/>
+</graphics>
+<name>
+<value>S3 Quebrou</value>
+<graphics>
+<offset x="21.36363636363636" y="47.72727272727272"/>
+</graphics>
+</name>
+<orientation>
+<value>0</value>
+</orientation>
+<rate>
+<value>1.0</value>
+</rate>
+<timed>
+<value>false</value>
+</timed>
+<infiniteServer>
+<value>false</value>
+</infiniteServer>
+<priority>
+<value>1</value>
+</priority>
+</transition>
+<transition id="T1">
+<graphics>
+<position x="139.09090909090912" y="257.7272727272727"/>
+</graphics>
+<name>
+<value>T1</value>
+<graphics>
+<offset x="20.454545454545407" y="43.18181818181817"/>
+</graphics>
+</name>
+<orientation>
+<value>0</value>
+</orientation>
+<rate>
+<value>1.0</value>
+</rate>
+<timed>
+<value>false</value>
+</timed>
+<infiniteServer>
+<value>false</value>
+</infiniteServer>
+<priority>
+<value>1</value>
+</priority>
+</transition>
+<transition id="T2">
+<graphics>
+<position x="259.09090909090907" y="252.27272727272737"/>
+</graphics>
+<name>
+<value>T2</value>
+<graphics>
+<offset x="-1.3636363636363633" y="32.27272727272727"/>
+</graphics>
+</name>
+<orientation>
+<value>0</value>
+</orientation>
+<rate>
+<value>1.0</value>
+</rate>
+<timed>
+<value>false</value>
+</timed>
+<infiniteServer>
+<value>false</value>
+</infiniteServer>
+<priority>
+<value>1</value>
+</priority>
+</transition>
+<transition id="T3">
+<graphics>
+<position x="381.8181818181818" y="186.8181818181818"/>
+</graphics>
+<name>
+<value>T3</value>
+<graphics>
+<offset x="28.636363636363576" y="48.63636363636364"/>
+</graphics>
+</name>
+<orientation>
+<value>0</value>
+</orientation>
+<rate>
+<value>1.0</value>
+</rate>
+<timed>
+<value>false</value>
+</timed>
+<infiniteServer>
+<value>false</value>
+</infiniteServer>
+<priority>
+<value>1</value>
+</priority>
+</transition>
+<transition id="T4">
+<graphics>
+<position x="376.3636363636364" y="306.81818181818187"/>
+</graphics>
+<name>
+<value>T4</value>
+<graphics>
+<offset x="-5.0" y="35.0"/>
+</graphics>
+</name>
+<orientation>
+<value>0</value>
+</orientation>
+<rate>
+<value>1.0</value>
+</rate>
+<timed>
+<value>false</value>
+</timed>
+<infiniteServer>
+<value>false</value>
+</infiniteServer>
+<priority>
+<value>1</value>
+</priority>
+</transition>
+<arc id="Novo trabalho to Q1" source="Novo trabalho" target="Q1">
+<graphics/>
+<inscription>
+<value>Default,1</value>
+<graphics/>
+</inscription>
+<tagged>
+<value>false</value>
+</tagged>
+<arcpath id="000" x="46" y="266" curvePoint="false"/>
+<arcpath id="001" x="82" y="268" curvePoint="false"/>
+<type value="normal"/>
+</arc>
+<arc id="Q1 to T1" source="Q1" target="T1">
+<graphics/>
+<inscription>
+<value>Default,1</value>
+<graphics/>
+</inscription>
+<tagged>
+<value>false</value>
+</tagged>
+<arcpath id="000" x="111" y="269" curvePoint="false"/>
+<arcpath id="001" x="145" y="270" curvePoint="false"/>
+<type value="normal"/>
+</arc>
+<arc id="Q2 to T3" source="Q2" target="T3">
+<graphics/>
+<inscription>
+<value>Default,1</value>
+<graphics/>
+</inscription>
+<tagged>
+<value>false</value>
+</tagged>
+<arcpath id="000" x="339" y="249" curvePoint="false"/>
+<arcpath id="001" x="388" y="199" curvePoint="false"/>
+<type value="normal"/>
+</arc>
+<arc id="Q2 to T4" source="Q2" target="T4">
+<graphics/>
+<inscription>
+<value>Default,1</value>
+<graphics/>
+</inscription>
+<tagged>
+<value>false</value>
+</tagged>
+<arcpath id="000" x="339" y="271" curvePoint="false"/>
+<arcpath id="001" x="382" y="319" curvePoint="false"/>
+<type value="normal"/>
+</arc>
+<arc id="S1 to T2" source="S1" target="T2">
+<graphics/>
+<inscription>
+<value>Default,1</value>
+<graphics/>
+</inscription>
+<tagged>
+<value>false</value>
+</tagged>
+<arcpath id="000" x="234" y="264" curvePoint="false"/>
+<arcpath id="001" x="265" y="264" curvePoint="false"/>
+<type value="normal"/>
+</arc>
+<arc id="S2 Finalizado to Finalizado" source="S2 Finalizado" target="Finalizado">
+<graphics/>
+<inscription>
+<value>Default,1</value>
+<graphics/>
+</inscription>
+<tagged>
+<value>false</value>
+</tagged>
+<arcpath id="000" x="560" y="189" curvePoint="false"/>
+<arcpath id="001" x="593" y="239" curvePoint="false"/>
+<type value="normal"/>
+</arc>
+<arc id="S2 Quebrou to Perdido" source="S2 Quebrou" target="Perdido">
+<graphics/>
+<inscription>
+<value>Default,1</value>
+<graphics/>
+</inscription>
+<tagged>
+<value>false</value>
+</tagged>
+<arcpath id="000" x="602" y="115" curvePoint="false"/>
+<arcpath id="001" x="681" y="246" curvePoint="false"/>
+<type value="normal"/>
+</arc>
+<arc id="S2 to S2 Finalizado" source="S2" target="S2 Finalizado">
+<graphics/>
+<inscription>
+<value>Default,1</value>
+<graphics/>
+</inscription>
+<tagged>
+<value>false</value>
+</tagged>
+<arcpath id="000" x="462" y="198" curvePoint="false"/>
+<arcpath id="001" x="550" y="190" curvePoint="false"/>
+<type value="normal"/>
+</arc>
+<arc id="S2 to S2 Quebrou" source="S2" target="S2 Quebrou">
+<graphics/>
+<inscription>
+<value>Default,1</value>
+<graphics/>
+</inscription>
+<tagged>
+<value>false</value>
+</tagged>
+<arcpath id="000" x="460" y="191" curvePoint="false"/>
+<arcpath id="001" x="592" y="115" curvePoint="false"/>
+<type value="normal"/>
+</arc>
+<arc id="S3 Finalizado to Finalizado" source="S3 Finalizado" target="Finalizado">
+<graphics/>
+<inscription>
+<value>Default,1</value>
+<graphics/>
+</inscription>
+<tagged>
+<value>false</value>
+</tagged>
+<arcpath id="000" x="567" y="312" curvePoint="false"/>
+<arcpath id="001" x="594" y="264" curvePoint="false"/>
+<type value="normal"/>
+</arc>
+<arc id="S3 Quebrou to Perdido" source="S3 Quebrou" target="Perdido">
+<graphics/>
+<inscription>
+<value>Default,1</value>
+<graphics/>
+</inscription>
+<tagged>
+<value>false</value>
+</tagged>
+<arcpath id="000" x="606" y="383" curvePoint="false"/>
+<arcpath id="001" x="680" y="271" curvePoint="false"/>
+<type value="normal"/>
+</arc>
+<arc id="S3 to S3 Finalizado" source="S3" target="S3 Finalizado">
+<graphics/>
+<inscription>
+<value>Default,1</value>
+<graphics/>
+</inscription>
+<tagged>
+<value>false</value>
+</tagged>
+<arcpath id="000" x="470" y="320" curvePoint="false"/>
+<arcpath id="001" x="557" y="313" curvePoint="false"/>
+<type value="normal"/>
+</arc>
+<arc id="S3 to S3 Quebrou" source="S3" target="S3 Quebrou">
+<graphics/>
+<inscription>
+<value>Default,1</value>
+<graphics/>
+</inscription>
+<tagged>
+<value>false</value>
+</tagged>
+<arcpath id="000" x="469" y="328" curvePoint="false"/>
+<arcpath id="001" x="596" y="384" curvePoint="false"/>
+<type value="normal"/>
+</arc>
+<arc id="T1 to S1" source="T1" target="S1">
+<graphics/>
+<inscription>
+<value>Default,1</value>
+<graphics/>
+</inscription>
+<tagged>
+<value>false</value>
+</tagged>
+<arcpath id="000" x="155" y="269" curvePoint="false"/>
+<arcpath id="001" x="205" y="265" curvePoint="false"/>
+<type value="normal"/>
+</arc>
+<arc id="T2 to Q2" source="T2" target="Q2">
+<graphics/>
+<inscription>
+<value>Default,1</value>
+<graphics/>
+</inscription>
+<tagged>
+<value>false</value>
+</tagged>
+<arcpath id="000" x="275" y="263" curvePoint="false"/>
+<arcpath id="001" x="314" y="261" curvePoint="false"/>
+<type value="normal"/>
+</arc>
+<arc id="T3 to S2" source="T3" target="S2">
+<graphics/>
+<inscription>
+<value>Default,1</value>
+<graphics/>
+</inscription>
+<tagged>
+<value>false</value>
+</tagged>
+<arcpath id="000" x="398" y="198" curvePoint="false"/>
+<arcpath id="001" x="432" y="199" curvePoint="false"/>
+<type value="normal"/>
+</arc>
+<arc id="T4 to S3" source="T4" target="S3">
+<graphics/>
+<inscription>
+<value>Default,1</value>
+<graphics/>
+</inscription>
+<tagged>
+<value>false</value>
+</tagged>
+<arcpath id="000" x="392" y="318" curvePoint="false"/>
+<arcpath id="001" x="440" y="320" curvePoint="false"/>
+<type value="normal"/>
+</arc>
+</net>
+</pnml>

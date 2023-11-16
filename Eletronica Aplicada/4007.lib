@@ -1,0 +1,29 @@
+**************************************************
+* Level 1 SPICE Models for the 4007 CMOS chip
+**************************************************
+* These Level 1 models were extracted from measured results. The
+* model attempts to account for the package parasitics. The simulated and
+* typical measured device capacitances are as follows:
+*
+*    NMOS: Cgs = 18pF   Cds = 14pF
+*    PMOS: Cgs = 17pF   Cds = 26pF
+*
+* Gate-to-drain capacitances were not extracted but were adjusted to
+* to help fit measured results.
+
+*$
+.MODEL P4007    PMOS    ( LEVEL   = 1           L=5u    W=100u
++VTO    = -1.40         KP      = 3.2e-5        GAMMA   = 3.30
++PHI    = 0.65          LAMBDA  = 9e-2          CBD     = 65e-12
++CBS    = 2e-14         IS      = 1e-15         PB      = 0.87
++CGSO   = 0             CGDO    = 0             CGBO    = 1e-5
++CJ     = 2e-10         MJ      = 0.5           CJSW    = 1e-9
++MJSW   = 0.33          JS      = 1e-8          TOX     = 6.89e-10)
+*$
+.MODEL N4007   NMOS    ( LEVEL   = 1           L=5u    W=20u
++VTO    = 1.77          Kp      = 2.169e-4      GAMMA   = 4.10
++PHI    = 0.65          LAMBDA  = 1.5e-2        CBD     = 20e-12
++CBS    = 0             IS      = 1e-15         PB      = 0.87
++CBS    = 2e-14         CGDO    = 88e-8         CGBO    = 0
++CJ     = 2e-10         MJ      = 0.5           CJSW    = 1e-9
++MJSW   = 0.33          JS      = 1e-8          TOX     = 1.265e-10)
