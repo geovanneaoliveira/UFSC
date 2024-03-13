@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<Module xmlns="http://waters.sourceforge.net/xsd/module" xmlns:B="http://waters.sourceforge.net/xsd/base" Name="5">
+<EventDeclList>
+<EventDecl Kind="CONTROLLABLE" Name="umf1"/>
+<EventDecl Kind="CONTROLLABLE" Name="umf2"/>
+<EventDecl Kind="CONTROLLABLE" Name="umf"/>
+<EventDecl Kind="CONTROLLABLE" Name="doisf1"/>
+<EventDecl Kind="CONTROLLABLE" Name="doisf2"/>
+<EventDecl Kind="CONTROLLABLE" Name="doisf"/>
+<EventDecl Kind="PROPOSITION" Name=":accepting"/>
+</EventDeclList>
+<ComponentList>
+<SimpleComponent Kind="PLANT" Name="p1">
+<Graph>
+<NodeList>
+<SimpleNode Initial="true" Name="S0">
+<EventList>
+<SimpleIdentifier Name=":accepting"/>
+</EventList>
+<PointGeometry>
+<Point X="112" Y="128"/>
+</PointGeometry>
+<LabelGeometry Anchor="NW">
+<Point X="0" Y="10"/>
+</LabelGeometry>
+</SimpleNode>
+<SimpleNode Name="S1">
+<PointGeometry>
+<Point X="224" Y="80"/>
+</PointGeometry>
+<LabelGeometry Anchor="NW">
+<Point X="0" Y="10"/>
+</LabelGeometry>
+</SimpleNode>
+<SimpleNode Name="S2">
+<PointGeometry>
+<Point X="320" Y="128"/>
+</PointGeometry>
+<LabelGeometry Anchor="NW">
+<Point X="0" Y="10"/>
+</LabelGeometry>
+</SimpleNode>
+<SimpleNode Name="S3">
+<PointGeometry>
+<Point X="224" Y="176"/>
+</PointGeometry>
+<LabelGeometry Anchor="NW">
+<Point X="0" Y="10"/>
+</LabelGeometry>
+</SimpleNode>
+</NodeList>
+<EdgeList>
+<Edge Source="S0" Target="S1">
+<LabelBlock>
+<SimpleIdentifier Name="umf1"/>
+</LabelBlock>
+</Edge>
+<Edge Source="S1" Target="S2">
+<LabelBlock>
+<SimpleIdentifier Name="umf2"/>
+</LabelBlock>
+</Edge>
+<Edge Source="S3" Target="S2">
+<LabelBlock>
+<SimpleIdentifier Name="umf1"/>
+</LabelBlock>
+</Edge>
+<Edge Source="S0" Target="S3">
+<LabelBlock>
+<SimpleIdentifier Name="umf2"/>
+</LabelBlock>
+</Edge>
+<Edge Source="S2" Target="S0">
+<LabelBlock>
+<SimpleIdentifier Name="umf"/>
+</LabelBlock>
+</Edge>
+</EdgeList>
+</Graph>
+</SimpleComponent>
+<SimpleComponent Kind="PLANT" Name="p2">
+<Graph>
+<NodeList>
+<SimpleNode Initial="true" Name="S0">
+<EventList>
+<SimpleIdentifier Name=":accepting"/>
+</EventList>
+<PointGeometry>
+<Point X="64" Y="96"/>
+</PointGeometry>
+<LabelGeometry Anchor="NW">
+<Point X="0" Y="10"/>
+</LabelGeometry>
+</SimpleNode>
+<SimpleNode Name="S1">
+<PointGeometry>
+<Point X="144" Y="48"/>
+</PointGeometry>
+<LabelGeometry Anchor="NW">
+<Point X="0" Y="10"/>
+</LabelGeometry>
+</SimpleNode>
+<SimpleNode Name="S2">
+<PointGeometry>
+<Point X="224" Y="96"/>
+</PointGeometry>
+<LabelGeometry Anchor="NW">
+<Point X="0" Y="10"/>
+</LabelGeometry>
+</SimpleNode>
+<SimpleNode Name="S3">
+<PointGeometry>
+<Point X="144" Y="160"/>
+</PointGeometry>
+<LabelGeometry Anchor="NW">
+<Point X="0" Y="10"/>
+</LabelGeometry>
+</SimpleNode>
+</NodeList>
+<EdgeList>
+<Edge Source="S0" Target="S1">
+<LabelBlock>
+<SimpleIdentifier Name="doisf1"/>
+</LabelBlock>
+</Edge>
+<Edge Source="S1" Target="S2">
+<LabelBlock>
+<SimpleIdentifier Name="doisf2"/>
+</LabelBlock>
+</Edge>
+<Edge Source="S3" Target="S2">
+<LabelBlock>
+<SimpleIdentifier Name="doisf1"/>
+</LabelBlock>
+</Edge>
+<Edge Source="S0" Target="S3">
+<LabelBlock>
+<SimpleIdentifier Name="doisf2"/>
+</LabelBlock>
+</Edge>
+<Edge Source="S2" Target="S0">
+<LabelBlock>
+<SimpleIdentifier Name="doisf"/>
+</LabelBlock>
+</Edge>
+</EdgeList>
+</Graph>
+</SimpleComponent>
+<SimpleComponent Kind="SPEC" Name="F1">
+<Graph>
+<NodeList>
+<SimpleNode Initial="true" Name="S0">
+<EventList>
+<SimpleIdentifier Name=":accepting"/>
+</EventList>
+<PointGeometry>
+<Point X="80" Y="96"/>
+</PointGeometry>
+<LabelGeometry Anchor="NW">
+<Point X="0" Y="10"/>
+</LabelGeometry>
+</SimpleNode>
+<SimpleNode Name="S1">
+<PointGeometry>
+<Point X="208" Y="96"/>
+</PointGeometry>
+<LabelGeometry Anchor="NW">
+<Point X="0" Y="10"/>
+</LabelGeometry>
+</SimpleNode>
+</NodeList>
+<EdgeList>
+<Edge Source="S0" Target="S1">
+<LabelBlock>
+<SimpleIdentifier Name="doisf1"/>
+<SimpleIdentifier Name="umf1"/>
+<LabelGeometry Anchor="NW">
+<Point X="14" Y="-49"/>
+</LabelGeometry>
+</LabelBlock>
+<SplineGeometry>
+<Point X="146" Y="70"/>
+</SplineGeometry>
+</Edge>
+<Edge Source="S1" Target="S0">
+<LabelBlock>
+<SimpleIdentifier Name="doisf"/>
+<SimpleIdentifier Name="umf"/>
+</LabelBlock>
+<SplineGeometry>
+<Point X="146" Y="125"/>
+</SplineGeometry>
+</Edge>
+</EdgeList>
+</Graph>
+</SimpleComponent>
+<SimpleComponent Kind="SPEC" Name="F2">
+<Graph>
+<NodeList>
+<SimpleNode Initial="true" Name="S0">
+<EventList>
+<SimpleIdentifier Name=":accepting"/>
+</EventList>
+<PointGeometry>
+<Point X="64" Y="96"/>
+</PointGeometry>
+<LabelGeometry Anchor="NW">
+<Point X="0" Y="10"/>
+</LabelGeometry>
+</SimpleNode>
+<SimpleNode Name="S1">
+<PointGeometry>
+<Point X="208" Y="96"/>
+</PointGeometry>
+<LabelGeometry Anchor="NW">
+<Point X="0" Y="10"/>
+</LabelGeometry>
+</SimpleNode>
+</NodeList>
+<EdgeList>
+<Edge Source="S0" Target="S1">
+<LabelBlock>
+<SimpleIdentifier Name="umf2"/>
+<SimpleIdentifier Name="doisf2"/>
+</LabelBlock>
+<SplineGeometry>
+<Point X="137" Y="68"/>
+</SplineGeometry>
+</Edge>
+<Edge Source="S1" Target="S0">
+<LabelBlock>
+<SimpleIdentifier Name="doisf"/>
+<SimpleIdentifier Name="umf"/>
+</LabelBlock>
+<SplineGeometry>
+<Point X="137" Y="123"/>
+</SplineGeometry>
+</Edge>
+</EdgeList>
+</Graph>
+</SimpleComponent>
+</ComponentList>
+</Module>
