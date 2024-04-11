@@ -1,0 +1,5 @@
+{
+    "terminal.integrated.env.windows": {
+        "PATH": "C:\\Program Files\\GNU Octave\\Octave-8.3.0\\mingw64\\bin"
+    }
+}
