@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Symbolconfiguration xmlns="http://www.3s-software.com/schemas/Symbolconfiguration.xsd">
+  <Header>
+    <Version>3.5.14.0</Version>
+    <SymbolConfigObject version="4.4.0.0" runtimeid="3.5.19.30" libversion="4.4.0.0" compiler="3.5.19.30" lmm="3.5.19.30" profile="CODESYS V3.5 SP19 Patch 3+" settings="SupportOPCUA, LayoutCalculator=OptimizedClientSideLayoutCalculator" />
+    <ProjectInfo name="trabalhomodelagem" devicename="Device" appname="Application" />
+  </Header>
+  <TypeList>
+    <TypeSimple name="T_BOOL" size="1" swapsize="0" typeclass="Bool" iecname="BOOL" />
+    <TypeSimple name="T_INT" size="2" swapsize="2" typeclass="Int" iecname="INT" />
+    <TypeSimple name="T_TIME" size="4" swapsize="4" typeclass="Time" iecname="TIME" />
+    <TypeUserDef name="T_TON" size="16" nativesize="32" typeclass="Userdef" pouclass="FUNCTION_BLOCK" iecname="TON">
+      <UserDefElement iecname="IN" type="T_BOOL" byteoffset="0" vartype="VAR_INPUT" access="ReadWrite" />
+      <UserDefElement iecname="PT" type="T_TIME" byteoffset="4" vartype="VAR_INPUT" access="ReadWrite" />
+      <UserDefElement iecname="Q" type="T_BOOL" byteoffset="8" vartype="VAR_OUTPUT" access="ReadWrite" />
+      <UserDefElement iecname="ET" type="T_TIME" byteoffset="12" vartype="VAR_OUTPUT" access="ReadWrite" />
+    </TypeUserDef>
+  </TypeList>
+  <NodeList>
+    <Node name="Application">
+      <Node name="PLC_PRG">
+        <Node name="Base_center_has_error" type="T_BOOL" access="ReadWrite" />
+        <Node name="Bases_at_entry" type="T_BOOL" access="ReadWrite" />
+        <Node name="Bases_at_exit" type="T_BOOL" access="ReadWrite" />
+        <Node name="Bases_center_busy" type="T_BOOL" access="ReadWrite" />
+        <Node name="Bases_center_poduce_lids" type="T_BOOL" access="ReadWrite" />
+        <Node name="Bases_center_reset" type="T_BOOL" access="ReadWrite" />
+        <Node name="Bases_center_start" type="T_BOOL" access="ReadWrite" />
+        <Node name="Bases_center_stop" type="T_BOOL" access="ReadWrite" />
+        <Node name="Bases_counter" type="T_INT" access="ReadWrite" />
+        <Node name="Bases_emitter" type="T_BOOL" access="ReadWrite" />
+        <Node name="Bases_exit_conveyor_1" type="T_BOOL" access="ReadWrite" />
+        <Node name="Belt_conveyor_4m_1" type="T_BOOL" access="ReadWrite" />
+        <Node name="Belt_conveyor_4m_2" type="T_BOOL" access="ReadWrite" />
+        <Node name="Belt_conveyor_4m_5" type="T_BOOL" access="ReadWrite" />
+        <Node name="Belt_conveyor_6m_1" type="T_BOOL" access="ReadWrite" />
+        <Node name="Belt_conveyor_6m_2" type="T_BOOL" access="ReadWrite" />
+        <Node name="Box_N" type="T_INT" access="ReadWrite" />
+        <Node name="Curved_roller_conveyor_1" type="T_BOOL" access="ReadWrite" />
+        <Node name="Diffuse_censor1" type="T_BOOL" access="ReadWrite" />
+        <Node name="Diffuse_censor2" type="T_BOOL" access="ReadWrite" />
+        <Node name="Diffuse_censor3" type="T_BOOL" access="ReadWrite" />
+        <Node name="Diffuse_censor6" type="T_BOOL" access="ReadWrite" />
+        <Node name="Emergency_stop" type="T_BOOL" access="ReadWrite" />
+        <Node name="Emitter_3_emit" type="T_BOOL" access="ReadWrite" />
+        <Node name="Estados" type="T_INT" access="ReadWrite" />
+        <Node name="FactoryIO_running" type="T_BOOL" access="ReadWrite" />
+        <Node name="Lids_at_entry" type="T_BOOL" access="ReadWrite" />
+        <Node name="Lids_at_exit" type="T_BOOL" access="ReadWrite" />
+        <Node name="Lids_center_busy" type="T_BOOL" access="ReadWrite" />
+        <Node name="Lids_center_has_error" type="T_BOOL" access="ReadWrite" />
+        <Node name="Lids_center_produce_lids" type="T_BOOL" access="ReadWrite" />
+        <Node name="Lids_center_reset" type="T_BOOL" access="ReadWrite" />
+        <Node name="Lids_center_start" type="T_BOOL" access="ReadWrite" />
+        <Node name="Lids_center_stop" type="T_BOOL" access="ReadWrite" />
+        <Node name="Lids_counter" type="T_INT" access="ReadWrite" />
+        <Node name="Lids_emitter" type="T_BOOL" access="ReadWrite" />
+        <Node name="Machine_center_1_opened" type="T_BOOL" access="ReadWrite" />
+        <Node name="Machine_center_1_progress" type="T_INT" access="ReadWrite" />
+        <Node name="Machine_center_2_opened" type="T_BOOL" access="ReadWrite" />
+        <Node name="Machine_center_2_progress" type="T_INT" access="ReadWrite" />
+        <Node name="Reset_button_1" type="T_BOOL" access="ReadWrite" />
+        <Node name="Reset_button_1_light" type="T_BOOL" access="ReadWrite" />
+        <Node name="Right_positioner_1" type="T_BOOL" access="ReadWrite" />
+        <Node name="Right_positioner_1_clamp" type="T_BOOL" access="ReadWrite" />
+        <Node name="Right_positioner_1_raise" type="T_BOOL" access="ReadWrite" />
+        <Node name="Right_positioner_2" type="T_BOOL" access="ReadWrite" />
+        <Node name="Right_positioner_2_clamp" type="T_BOOL" access="ReadWrite" />
+        <Node name="Right_positioner_2_raise" type="T_BOOL" access="ReadWrite" />
+        <Node name="Roller_conveyor_6m" type="T_BOOL" access="ReadWrite" />
+        <Node name="Safety_door_1" type="T_BOOL" access="ReadWrite" />
+        <Node name="Start_button_1" type="T_BOOL" access="ReadWrite" />
+        <Node name="Start_button_1_light" type="T_BOOL" access="ReadWrite" />
+        <Node name="Stop_button_1" type="T_BOOL" access="ReadWrite" />
+        <Node name="Stop_button_1_light" type="T_BOOL" access="ReadWrite" />
+        <Node name="T" type="T_TIME" access="ReadWrite" />
+        <Node name="TON_0" type="T_TON" access="ReadWrite" />
+        <Node name="TON_1" type="T_TON" access="ReadWrite" />
+        <Node name="TON_2" type="T_TON" access="ReadWrite" />
+        <Node name="TON_3" type="T_TON" access="ReadWrite" />
+        <Node name="TON_4" type="T_TON" access="ReadWrite" />
+        <Node name="TON_5" type="T_TON" access="ReadWrite" />
+        <Node name="TON_6" type="T_TON" access="ReadWrite" />
+        <Node name="TON_7" type="T_TON" access="ReadWrite" />
+        <Node name="Two_axis_pick_and_place_1_detected" type="T_BOOL" access="ReadWrite" />
+        <Node name="Two_axis_pick_and_place_1_grab" type="T_BOOL" access="ReadWrite" />
+        <Node name="Two_axis_pick_and_place_1_gripper_ccw" type="T_BOOL" access="ReadWrite" />
+        <Node name="Two_axis_pick_and_place_1_gripper_cw" type="T_BOOL" access="ReadWrite" />
+        <Node name="Two_axis_pick_and_place_1_gripper_rotating" type="T_BOOL" access="ReadWrite" />
+        <Node name="Two_axis_pick_and_place_1_moving_x" type="T_BOOL" access="ReadWrite" />
+        <Node name="Two_axis_pick_and_place_1_moving_z" type="T_BOOL" access="ReadWrite" />
+        <Node name="Two_axis_pick_and_place_1_rotate_ccw" type="T_BOOL" access="ReadWrite" />
+        <Node name="Two_axis_pick_and_place_1_rotate_cw" type="T_BOOL" access="ReadWrite" />
+        <Node name="Two_axis_pick_and_place_1_rotating" type="T_BOOL" access="ReadWrite" />
+        <Node name="Two_axis_pick_and_place_1_x" type="T_BOOL" access="ReadWrite" />
+        <Node name="Two_axis_pick_and_place_1_z" type="T_BOOL" access="ReadWrite" />
+      </Node>
+    </Node>
+  </NodeList>
+</Symbolconfiguration>
