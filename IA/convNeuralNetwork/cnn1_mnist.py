@@ -3,10 +3,10 @@
 # Prof. Mauri Ferrandin
 # Exemplo de CNN para um problema de classificação multiclasse
 # Adaptado de: https://keras.io/examples/vision/mnist_convnet/
-# REINSTALL TENSORFLOW
 
 import numpy as np
 from tensorflow import keras
+from tensorflow.python.keras import layers
 from matplotlib import pyplot
 
 # Model / data parameters
@@ -19,7 +19,7 @@ input_shape = (28, 28, 1)
 
 # summarize loaded dataset
 print('Train: X=%s, y=%s' % (x_train.shape, y_train.shape))
-print('Test: X=%s, y=%s' % (x_train.shape, y_train.shape))
+print('Test: X=%s, y=%s' % (x_test.shape, y_train.shape))
 # plot first few images
 for i in range(9):
 	# define subplot
@@ -47,15 +47,13 @@ y_test = keras.utils.to_categorical(y_test, num_classes)
 model = keras.Sequential(
     [
         keras.Input(shape=input_shape),
-        keras.layers.Conv2D(32, kernel_size=(3, 3), activation="relu"),
-        keras.layers.MaxPooling2D(pool_size=(2, 2)),
-        keras.layers.Conv2D(64, kernel_size=(3, 3), activation="relu"),
-        keras.layers.MaxPooling2D(pool_size=(2, 2)),
-        keras.layers.Flatten(),
-        #layers.Dropout(0.5),
-        keras.layers.Dense(16, activation='sigmoid'),
-        keras.layers.Dense(16, activation='sigmoid'),
-        keras.layers.Dense(num_classes, activation="softmax"),
+        layers.Conv2D(32, kernel_size=(3, 3), activation="relu"),
+        layers.MaxPooling2D(pool_size=(2, 2)),
+        layers.Conv2D(64, kernel_size=(3, 3), activation="relu"),
+        layers.MaxPooling2D(pool_size=(2, 2)),
+        layers.Flatten(),
+        layers.Dropout(0.5),
+        layers.Dense(num_classes, activation="softmax"),
     ]
 )
 
