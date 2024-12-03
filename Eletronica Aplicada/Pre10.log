@@ -92,8 +92,8 @@ Ft:       0.00e+00    0.00e+00    0.00e+00    0.00e+00
 
 
 
-Date: Mon Oct 30 20:11:59 2023
-Total elapsed time: 1.118 seconds.
+Date: Fri Dec  1 18:18:42 2023
+Total elapsed time: 1.391 seconds.
 
 tnom = 27
 temp = 27
@@ -108,5 +108,5 @@ fillins = 149
 solver = Normal
 Avg thread counts: 1.4/0.0/8.0/1.4
 Matrix Compiler1: 12.20 KB object code size
-Matrix Compiler2: 8.71 KB object code size  2.6/3.2/[0.9]
+Matrix Compiler2: 8.71 KB object code size  2.7/3.3/[0.9]
 
