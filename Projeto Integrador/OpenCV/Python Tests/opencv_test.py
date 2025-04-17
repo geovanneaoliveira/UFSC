@@ -69,7 +69,6 @@ print(f"Red Channel: Mean={stats_R[0]:.2f}, StdDev={stats_R[1]:.2f}, Skewness={s
 print(f"Green Channel: Mean={stats_G[0]:.2f}, StdDev={stats_G[1]:.2f}, Skewness={stats_G[2]:.2f}, Kurtosis={stats_G[3]:.2f}")
 print(f"Blue Channel: Mean={stats_B[0]:.2f}, StdDev={stats_B[1]:.2f}, Skewness={stats_B[2]:.2f}, Kurtosis={stats_B[3]:.2f}")
 
-
-cv2.waitKey(0)
 cv2.destroyAllWindows()
+cv2.waitKey(0)
 
