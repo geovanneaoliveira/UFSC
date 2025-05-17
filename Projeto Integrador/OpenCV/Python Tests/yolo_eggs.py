@@ -1,8 +1,4 @@
-import torch
-import onnx
-import onnxruntime as ort
 import numpy as np
-import os
 import cv2
 from ultralytics import YOLO
 from ultralytics.engine.results import Results, Boxes, Annotator
@@ -10,7 +6,7 @@ from ultralytics.engine.results import Results, Boxes, Annotator
 model = YOLO("models/bestv2.pt", task="detect")
 image_path = "datasets/cvr_egg/test/images/IMG_20241024_151433_TIMEBURST4_jpg.rf.6e13f08ef214bd2c13e733a59270b741.jpg"
 
-# datasets\cvr_egg\test\images\IMG_20241030_154905_jpg.rf.eb89f2420f86ae1877e60e09b6c5fb55.jpg
+# datasets\cvr_egg\test\images\IMG_2024030_1154905_jpg.rf.eb89f2420f86ae1877e60e09b6c5fb55.jpg
 # datasets\cvr_egg\test\images\IMG_20241030_154554_jpg.rf.4111464a138174e77af06a90bf4648ee.jpg
 # datasets\cvr_egg\test\images\IMG_20241030_154554_jpg.rf.4111464a138174e77af06a90bf4648ee.jpg
 # datasets\cvr_egg\test\images\IMG_20241024_160643_TIMEBURST19_jpg.rf.4a74979d9c65ffc321eb7c4044744e00.jpg
