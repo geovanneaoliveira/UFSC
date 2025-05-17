@@ -9,7 +9,7 @@ using namespace std;
 
 int main()
 {
-    string image_path = "/Users/Geovanne/Downloads/gpec.jpg";
+    string image_path = "/Users/Geovanne/Downloads/candling.jpg";
 
     Mat image = imread(image_path, IMREAD_COLOR);
     resize(image, image, { 500,500 }, 0, 0, cv::INTER_NEAREST);
