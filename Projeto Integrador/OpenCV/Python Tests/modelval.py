@@ -4,7 +4,7 @@ from ultralytics.engine.results import Results, Boxes, Annotator
 from ultralytics import settings
 
 
-model = YOLO("models/bestv2.pt", task="detect")
+model = YOLO("models/best.pt", task="detect")
 
 # Update a setting
 

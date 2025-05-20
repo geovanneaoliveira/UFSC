@@ -2,8 +2,8 @@ import cv2
 from ultralytics import YOLO
 from ultralytics.engine.results import Results, Boxes, Annotator
 
-model = YOLO("models/best50ep.pt", task="detect")
-image_path = "egg2.jpg"
+model = YOLO("models/bestv2.pt", task="detect")
+image_path = "datasets/cvr_egg2/test/images/IMG_20241024_155952_TIMEBURST15_jpg.rf.75edaed86f44495c5b4fb3959c81f881.jpg"
 
 # datasets/cvr_egg/test/images/IMG_20241030_154905_jpg.rf.eb89f2420f86ae1877e60e09b6c5fb55.jpg
 # datasets/cvr_egg/test/images/IMG_20241030_154554_jpg.rf.4111464a138174e77af06a90bf4648ee.jpg
@@ -48,3 +48,4 @@ else:
 
 cv2.imshow('YOLO V11 Detection', img)
 cv2.waitKey(0)
+

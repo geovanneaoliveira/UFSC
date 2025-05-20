@@ -62,12 +62,21 @@ def draw_yolov11_masks(image, results, alpha=0.5, draw_boxes=True, draw_labels=T
 
     return output
 
-model = YOLO("models/bestseg.pt")
-image = cv2.imread("datasets/cvr_egg/test/images/IMG_20241024_160643_TIMEBURST19_jpg.rf.4a74979d9c65ffc321eb7c4044744e00.jpg")
+# datasets\cvr_egg2\test\images\IMG_20241024_155952_TIMEBURST15_jpg.rf.75edaed86f44495c5b4fb3959c81f881.jpg
+imgpath = "datasets/cvr_egg2/test/images/IMG_20241024_155952_TIMEBURST15_jpg.rf.75edaed86f44495c5b4fb3959c81f881.jpg"
+
+model = YOLO("models/seg50epcvr2.pt")
+image = cv2.imread(imgpath)
 
 # Run inference
 results = model(image)[0]  # Assuming this returns one result
 parsed_results = []
+
+names = model.names
+
+for r in results:
+    for c in r.boxes.cls:
+        print(names[int(c)])
 
 for seg, cls_id, conf, box in zip(results.masks.data, results.boxes.cls, results.boxes.conf, results.boxes.xyxy):
     parsed_results.append({
@@ -76,7 +85,7 @@ for seg, cls_id, conf, box in zip(results.masks.data, results.boxes.cls, results
         "mask": seg.cpu().numpy().astype(np.uint8),
         "box": box.cpu().numpy().tolist()
     })
-
+print(parsed_results)
 # Draw and save output
 output_img = draw_yolov11_masks(image, parsed_results)
 cv2.imwrite("segmented_output.jpg", output_img)

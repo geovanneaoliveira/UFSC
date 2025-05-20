@@ -11,7 +11,7 @@ def move_motor(steps):
     while True:
         response = arduino.readline().decode().strip()
         if response == "DONE":
-            print("Motor movement completed")
+            print("Movimento completo")
             break
 
 # Example usage
