@@ -4,7 +4,7 @@ import numpy as np
 from scipy.stats import skew, kurtosis
 
 # Read the egg image
-image = cv2.imread('candlingeggs.jpg')  # Replace with your actual path
+image = cv2.imread('datasets/cvr_egg/test/images/IMG_20241030_154554_jpg.rf.4111464a138174e77af06a90bf4648ee.jpg')  # Replace with your actual path
 imageRGB = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 cv2.imshow("Original Image", image)
 
