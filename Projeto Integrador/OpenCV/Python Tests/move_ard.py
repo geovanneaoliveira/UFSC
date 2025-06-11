@@ -2,10 +2,10 @@ import serial
 import time
 
 # Update port to your Arduino's port
-arduino = serial.Serial('COM5', 9600, timeout=1)
-time.sleep(2)  # Wait for Arduino to reset
 
 def move_motor(steps):
+    arduino = serial.Serial('COM5', 9600, timeout=1)
+    time.sleep(2)  # Wait for Arduino to reset
     print(f"Moving motor {steps} steps")
     arduino.write(f"{steps}\n".encode())
     while True:
@@ -13,7 +13,6 @@ def move_motor(steps):
         if response == "DONE":
             print("Movimento completo")
             break
-
+    arduino.close()
 # Example usage
-move_motor(50)    # Move 400 steps forward
-arduino.close()
+
