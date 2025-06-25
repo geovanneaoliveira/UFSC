@@ -58,3 +58,15 @@ def draw_masks_segmentation(image, results, alpha=0.5, draw_boxes=True, draw_lab
     cv2.addWeighted(overlay, alpha, output, 1 - alpha, 0, output)
 
     return output
+
+
+def draw_bounding_box(image, results, model):
+    for r in results:
+        annotator = Annotator(image)
+        boxes = r.boxes
+        for box in boxes:
+            b = box.xyxy[0]  # get box coordinates in (left, top, right, bottom) format
+            c = box.cls
+            annotator.box_label(b, model.names[int(c)])
+    img = annotator.result()
+    return img  
