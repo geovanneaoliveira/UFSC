@@ -1,4 +1,5 @@
 import random
+import cv2
 
 def draw_masks_segmentation(image, results, alpha=0.5, draw_boxes=True, draw_labels=True):
     """
