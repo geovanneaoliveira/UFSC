@@ -2,6 +2,8 @@ import numpy as np
 
 def get_parsed_results(results):
     parsed_results = []
+    if results.masks is None:
+        return "Nothing detected"
     for seg, cls_id, conf, box in zip(results.masks.data, results.boxes.cls, results.boxes.conf, results.boxes.xyxy):
         parsed_results.append({
             "class": int(cls_id),
