@@ -32,15 +32,24 @@ class YoloCameraApp:
         self.stop_button.pack(pady=20, fill="x", padx=20)
         self.reset_button.pack(pady=20, fill="x", padx=20)
 
-        # Right camera panel
+        # Right side: contains live video (top) and photo (bottom)
         self.video_frame = ctk.CTkFrame(self.root)
         self.video_frame.grid(row=0, column=1, sticky="nsew", padx=10, pady=10)
+        self.video_frame.grid_rowconfigure(0, weight=3)  # Live feed
+        self.video_frame.grid_rowconfigure(1, weight=2)  # Captured photo
+        self.video_frame.grid_columnconfigure(0, weight=1)
 
+        # Live video display (top)
         self.video_label = ctk.CTkLabel(self.video_frame, text="")
-        self.video_label.pack(expand=True, fill="both", padx=10, pady=10)
+        self.video_label.grid(row=0, column=0, sticky="nsew", padx=10, pady=(10, 5))
 
+        # Captured photo display (bottom)
+        self.photo_label = ctk.CTkLabel(self.video_frame, text="No photo yet")
+        self.photo_label.grid(row=1, column=0, sticky="nsew", padx=10, pady=(5, 10))
+
+        # Status below both
         self.status_label = ctk.CTkLabel(self.video_frame, textvariable=self.status_text, height=30)
-        self.status_label.pack(fill="x", padx=10, pady=(0, 10))
+        self.status_label.grid(row=2, column=0, sticky="ew", padx=10, pady=(0, 10))
 
         # Camera + model
         self.cap = cv2.VideoCapture(0)
