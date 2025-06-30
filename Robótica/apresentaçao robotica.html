@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apresentação: Redes Neurais para Controle e Aprendizado de Robôs</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f0f4f8;
+            color: #1e293b;
+            overflow: hidden;
+        }
+        .slide {
+            width: 100vw;
+            height: 100vh;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem 4rem;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 0.6s ease-in-out;
+        }
+        .slide.active {
+            display: flex;
+            opacity: 1;
+            z-index: 10;
+        }
+        .slide-content {
+            width: 100%;
+            max-width: 1200px;
+        }
+        .progress-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            height: 8px;
+            background-color: #3b82f6;
+            transition: width 0.3s ease-out;
+            z-index: 20;
+        }
+        .nav-button {
+            position: fixed;
+            bottom: 2rem;
+            z-index: 20;
+            background-color: rgba(0, 0, 0, 0.4);
+            color: white;
+            border-radius: 50%;
+            width: 3rem;
+            height: 3rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .nav-button:hover {
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+        #prev-btn { left: 2rem; }
+        #next-btn { right: 2rem; }
+        .slide-counter {
+            position: fixed;
+            bottom: 2.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 20;
+            background-color: rgba(0, 0, 0, 0.4);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+        }
+        h1, h2 { font-weight: 800; }
+        .fade-in-item {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+                /* Estilos para slides de mídia */
+        .media-background {
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        .media-overlay {
+            background-color: rgba(0, 0, 0, 0.6);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* Proporção 16:9 */
+            height: 0;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Slide 1: Título -->
+    <section class="slide active bg-slate-800 text-white text-center">
+        <div class="slide-content">
+            <h1 class="text-5xl md:text-7xl mb-4">Redes Neurais para Controle e Aprendizado de Robôs</h1>
+            <p class="text-xl md:text-2xl text-slate-300">Geovanne Almeida - João Beckhauser - Yuri Lima</p>
+            <p class="text-lg text-slate-400 mt-2">Introdução à Robótica Industrial - BLU3704</p>
+            <p class="text-lg text-slate-400 mt-2">UFSC - Blumenau</p>
+            <p class="text-md text-slate-500 mt-8">01 de Julho de 2025</p>
+        </div>
+    </section>
+
+    <!-- Slide 2: Roteiro -->
+    <section class="slide">
+        <div class="slide-content">
+            <h2 class="text-4xl mb-8 text-center">Roteiro da Apresentação</h2>
+            <ol class="text-2xl space-y-4 list-decimal list-inside">
+                <li class="fade-in-item">Introdução: A Nova Era da Robótica</li>
+                <li class="fade-in-item">Visão Geral do Cenário Atual</li>
+                <li class="fade-in-item">Fundamentos Técnicos das Redes Neurais</li>
+                <li class="fade-in-item">Aplicações Práticas no Mundo Real</li>
+                <li class="fade-in-item">Estudo de Caso: Resolvendo a Cinemática Inversa</li>
+                <li class="fade-in-item">Conclusão e Perspetivas Futuras</li>
+            </ol>
+        </div>
+    </section>
+
+    <!-- Slide 3: Introdução -->
+    <section class="slide">
+        <div class="slide-content">
+            <h2 class="text-4xl mb-12 text-center">Introdução: A Evolução da Robótica</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-center">
+                <div class="fade-in-item bg-white p-4 rounded-xl shadow-lg">
+                    <h3 class="text-3xl font-bold mb-4">Robótica Tradicional</h3>
+                    <ul class="space-y-2 text-lg text-slate-600">
+                        <li><span class="text-red-500 mr-2">&#10007;</span> Ambientes controlados</li>
+                        <li><span class="text-red-500 mr-2">&#10007;</span> Tarefas repetitivas</li>
+                        <li><span class="text-red-500 mr-2">&#10007;</span> Programação explícita</li>
+                    </ul>
+                    <video class= "p-4" src="Fast Scara Robot.mp4" autoplay loop muted playsinline class="w-full h-auto rounded-lg mb-4 bg-slate-200"></video>
+                </div>
+                <div class="fade-in-item bg-slate-800 text-white p-4 rounded-xl shadow-lg">
+                     <h3 class="text-3xl font-bold mb-4">Robótica Moderna</h3>
+                     <ul class="space-y-2 text-lg text-slate-300">
+                        <li><span class="text-green-400 mr-2">&#10003;</span> Ambientes dinâmicos</li>
+                        <li><span class="text-green-400 mr-2">&#10003;</span> Tarefas complexas</li>
+                        <li><span class="text-blue-400 mr-2">&#10022;</span> Aprendizado a partir de dados</li>
+                    </ul>
+                    <video class= "p-4" src="HARRI cut.mp4" autoplay loop muted playsinline class="w-full h-auto rounded-lg mb-4 bg-slate-200"></video>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 4: Por que Redes Neurais? -->
+    <section class="slide">
+        <div class="slide-content">
+            <h2 class="text-4xl mb-8 text-center">Por que Redes Neurais?</h2>
+            <div class="bg-white p-8 rounded-xl shadow-lg fade-in-item">
+                <h3 class="text-2xl font-bold mb-4">O Desafio Central</h3>
+                <p class="text-xl text-slate-600">Como capacitar um robô a tomar decisões inteligentes em cenários que não foram explicitamente programados?</p>
+            </div>
+            <div class="bg-blue-600 text-white p-8 rounded-xl shadow-lg mt-8 fade-in-item" style="transition-delay: 200ms;">
+                <h3 class="text-2xl font-bold mb-4">A Solução: Aprendizado Bio-inspirado</h3>
+                <p class="text-xl mb-4">As RNAs permitem que robôs:</p>
+                <ul class="list-disc list-inside text-xl space-y-2">
+                    <li>Reconheçam padrões em dados de sensores (visão, tato).</li>
+                    <li>Aprendam mapeamentos complexos (e.g., do que veem para como devem mover-se).</li>
+                    <li>Adaptem-se a mudanças no ambiente ou na própria tarefa.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Slide 5: Fronteiras da Pesquisa -->
+    <section class="slide">
+        <div class="slide-content">
+            <h2 class="text-4xl mb-8 text-center">Fronteiras da Pesquisa Atual</h2>
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="fade-in-item">
+                    <h3 class="text-3xl font-bold mb-4 text-blue-700">Aprendizado por Reforço Profundo (DRL)</h3>
+                    <p class="text-lg text-slate-600 mb-4">O robô aprende por <span class="font-semibold">tentativa e erro</span>, otimizando ações para maximizar uma "recompensa". Ideal para locomoção e manipulação.</p>
+                </div>
+                <div class="fade-in-item" style="transition-delay: 200ms;">
+                    <video class = "pt-4" src="Reinforcement learning on a chicken.mp4" autoplay loop muted playsinline class="w-full h-auto rounded-lg mb-4 bg-slate-200"></video>
+                </div>
+            </div>
+        </div>
+    </section>
+
+        <section class="slide">
+        <div class="slide-content">
+            <h2 class="text-4xl mb-8 text-center">Fronteiras da Pesquisa Atual</h2>
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="fade-in-item">
+                    <h3 class="text-3xl font-bold mb-4 text-blue-700">Aprendizado por Imitação</h3>
+                    <p class="text-lg text-slate-600 mb-4">O robô aprende <span class="font-semibold">observando um especialista</span> humano. Eficaz quando a recompensa é difícil de definir, como em cirurgias.</p>
+                </div>
+                <div class="fade-in-item" style="transition-delay: 200ms;">
+                    <video class = "pt-4" src="Teleoperation & Imitation Learning with PIKA & PIPER!.mp4" autoplay loop muted playsinline class="w-full h-auto rounded-lg mb-4 bg-slate-200"></video>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="slide">
+        <div class="slide-content">
+            <h2 class="text-4xl mb-8 text-center">Fronteiras da Pesquisa Atual</h2>
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="fade-in-item">
+                    <h3 class="text-3xl font-bold mb-4 text-blue-700">Spiking Neural Networks</h3>
+                    <p class="text-lg text-slate-600 mb-4">Spiking Neural Networks (SNNs) são um tipo de rede neural artificial que tenta imitar o funcionamento dos neurônios biológicos de forma mais realista. Diferente das redes neurais tradicionais que usam valores contínuos, as SNNs transmitem informações por meio de pulsos discretos chamados spikes.</p>
+                </div>
+                <div class="fade-in-item" style="transition-delay: 200ms;">
+                    <video class = "pt-4" src="Many-Joint Robot Arm Control with Recurrent Spiking Neural Networks.mp4" autoplay loop muted playsinline class="w-full h-auto rounded-lg mb-4 bg-slate-200"></video>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="slide">
+        <div class="slide-content text-center">
+            <h2 class="text-4xl mb-4">Uso de Redes Neurais</h2>
+            <p class="text-lg text-slate-600 mb-8 max-w-4xl mx-auto">A HyperNEAT é uma técnica evolutiva que usa CPPNs para gerar redes neurais com padrões geométricos. Esses padrões resultam em movimentos coordenados em robôs com pernas.</p>
+            <div class="bg-white rounded-xl shadow-lg p-4 fade-in-item w-full">
+                <div class="video-container rounded-lg overflow-hidden">
+                    <iframe src="https://www.youtube.com/embed/V2ADU8YWIug?si=lqnNWNQDyWFu9mvj" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 6: Desafios Atuais -->
+    <section class="slide">
+        <div class="slide-content">
+            <h2 class="text-4xl mb-8 text-center">Principais Desafios Atuais</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="fade-in-item bg-red-100 p-6 rounded-lg border-l-4 border-red-500">
+                    <h3 class="font-bold text-xl mb-2 text-red-800">Gap: Simulação vs. Realidade</h3>
+                    <p>Modelos treinados em simulação falham no mundo real. A física simulada nunca é perfeita.</p>
+                </div>
+                <div class="fade-in-item bg-yellow-100 p-6 rounded-lg border-l-4 border-yellow-500" style="transition-delay: 200ms;">
+                    <h3 class="font-bold text-xl mb-2 text-yellow-800">Eficiência de Amostra</h3>
+                    <p>Aprender por reforço pode exigir milhões de tentativas, o que é inviável e perigoso em hardware real.</p>
+                </div>
+                <div class="fade-in-item bg-indigo-100 p-6 rounded-lg border-l-4 border-indigo-500" style="transition-delay: 400ms;">
+                    <h3 class="font-bold text-xl mb-2 text-indigo-800">Segurança e Interpretabilidade</h3>
+                    <p>Como garantir que uma RNA, uma "caixa-preta", se comportará de forma segura em situações imprevistas?</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Slide 7: Neurônio Artificial -->
+    <section class="slide">
+        <div class="slide-content">
+            <h2 class="text-4xl mb-8 text-center">O Bloco Fundamental: O Neurônio Artificial</h2>
+            <div class="bg-white rounded-xl shadow-lg p-8">
+                <div class="flex flex-col md:flex-row items-center justify-around space-y-4 md:space-y-0">
+                    <div class="text-center fade-in-item">
+                        <span class="text-lg font-semibold">Entradas</span><br> (x₁, x₂, ... xn)
+                    </div>
+                    <div class="text-2xl text-slate-300 fade-in-item" style="transition-delay: 200ms;">&rarr;</div>
+                    <div class="text-center fade-in-item" style="transition-delay: 400ms;">
+                        <div class="p-4 border-4 border-blue-500 rounded-full inline-block bg-blue-50">
+                            <span class="font-extrabold text-2xl text-blue-700">&Sigma;</span>
+                        </div>
+                        <p class="font-semibold mt-2">Soma Ponderada</p>
+                        <p class="font-mono text-sm text-slate-500">z = &Sigma;(wᵢxᵢ) + b</p>
+                    </div>
+                    <div class="text-2xl text-slate-300 fade-in-item" style="transition-delay: 600ms;">&rarr;</div>
+                    <div class="text-center fade-in-item" style="transition-delay: 800ms;">
+                         <div class="p-4 border-4 border-teal-500 rounded-xl inline-block bg-teal-50">
+                             <span class="font-extrabold text-2xl text-teal-700">ƒ(z)</span>
+                        </div>
+                        <p class="font-semibold mt-2">Função de Ativação</p>
+                    </div>
+                    <div class="text-2xl text-slate-300 fade-in-item" style="transition-delay: 1000ms;">&rarr;</div>
+                    <div class="text-center fade-in-item" style="transition-delay: 1200ms;">
+                         <span class="text-lg font-semibold">Saída (y)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Slide 8: Funções de Ativação (Gráfico) -->
+    <section class="slide">
+        <div class="slide-content text-center">
+            <h2 class="text-4xl mb-4">Visualizando Funções de Ativação</h2>
+            <p class="text-lg text-slate-600 mb-8">Estas funções introduzem a não-linearidade essencial para o aprendizado de padrões complexos.</p>
+            <div class="bg-white rounded-xl shadow-lg p-8">
+                 <div style="height:40vh; max-height: 400px; width:100%; max-width: 800px; margin: auto;">
+                    <canvas id="activationChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 9: Estudo de Caso -->
+    <section class="slide">
+         <div class="slide-content">
+            <h2 class="text-4xl mb-8 text-center">Estudo de Caso: Cinemática Inversa</h2>
+             <div class="grid md:grid-cols-2 gap-8">
+                 <div class="space-y-6">
+                     <div class="bg-white p-6 rounded-xl shadow-lg fade-in-item">
+                         <h3 class="text-2xl font-bold mb-2">O Problema</h3>
+                         <p class="text-lg">Dada uma posição (x,y,z) para a ponta do robô, quais ângulos cada junta deve ter para chegar lá?</p>
+                     </div>
+                     <div class="bg-white p-6 rounded-xl shadow-lg fade-in-item" style="transition-delay: 200ms;">
+                         <h3 class="text-2xl font-bold mb-2">A Hipótese</h3>
+                         <p class="text-lg">Uma RNA pode aprender este mapeamento complexo diretamente dos dados, de forma mais rápida e robusta que métodos tradicionais.</p>
+                     </div>
+                 </div>
+                 <div class="bg-white p-6 rounded-xl shadow-lg fade-in-item" style="transition-delay: 400ms;">
+                     <h3 class="text-2xl font-bold mb-2">Metodologia</h3>
+                     <ul class="list-disc list-inside space-y-2 text-lg">
+                        <li><b>Dataset:</b> "Robot Kinematics Dataset" (Kaggle), robô ABB IRB 120.</li>
+                        <li><b>Modelo:</b> Rede MLP com camadas ocultas (ReLU) e saída linear.</li>
+                        <li><b>Treinamento:</b> Otimizador Adam e perda MSE (Erro Quadrático Médio).</li>
+                     </ul>
+                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 10: Resultados -->
+    <section class="slide">
+        <div class="slide-content">
+            <h2 class="text-4xl mb-8 text-center">Resultados e Análise Crítica</h2>
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <div class="fade-in-item">
+                    <div class="bg-white rounded-xl shadow-lg p-6">
+                        <h3 class="text-2xl font-bold mb-4">Desempenho do Modelo</h3>
+                        <p class="text-lg mb-4">O modelo alcançou um erro médio muito baixo, validando a abordagem. A tabela mostra um exemplo da precisão obtida.</p>
+                        <table class="w-full text-left">
+                            <thead>
+                                <tr class="border-b">
+                                    <th class="pb-2">Parâmetro</th>
+                                    <th class="pb-2 text-center">Ângulo Real</th>
+                                    <th class="pb-2 text-center">Ângulo Previsto</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="py-2">Ângulo 1 (Base)</td>
+                                    <td class="py-2 text-center">55.0°</td>
+                                    <td class="py-2 text-center font-semibold text-blue-600">55.8°</td>
+                                </tr>
+                                 <tr class="border-t">
+                                    <td class="py-2">Ângulo 2 (Cotovelo)</td>
+                                    <td class="py-2 text-center">70.0°</td>
+                                    <td class="py-2 text-center font-semibold text-blue-600">69.1°</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                 <div class="fade-in-item" style="transition-delay: 200ms;">
+                    <div class="bg-red-100 border-l-4 border-red-500 p-6 rounded-lg">
+                         <h3 class="text-2xl font-bold mb-2 text-red-800">Análise Crítica</h3>
+                        <ul class="list-disc list-inside space-y-2 text-lg">
+                            <li><b class="text-green-700">Vantagem:</b> Velocidade de inferência altíssima.</li>
+                            <li><b class="text-red-700">Limitação:</b> O modelo é específico para a geometria de um robô.</li>
+                            <li><b class="text-red-700">Limitação:</b> Não lida com múltiplas soluções para a mesma posição.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Slide 11: Conclusão -->
+    <section class="slide">
+        <div class="slide-content">
+            <h2 class="text-4xl mb-8 text-center">Conclusão</h2>
+            <div class="space-y-6">
+                <p class="text-2xl bg-white p-6 rounded-lg shadow-md fade-in-item">1. As Redes Neurais são ferramentas <b class="text-blue-600">poderosas e versáteis</b> para a robótica moderna, permitindo autonomia e adaptabilidade.</p>
+                <p class="text-2xl bg-white p-6 rounded-lg shadow-md fade-in-item" style="transition-delay: 200ms;">2. Demonstramos que uma RNA pode resolver eficazmente um problema complexo como a <b class="text-blue-600">cinemática inversa</b>, com alta precisão e velocidade.</p>
+                <p class="text-2xl bg-white p-6 rounded-lg shadow-md fade-in-item" style="transition-delay: 400ms;">3. Desafios como o <b class="text-blue-600">gap sim-to-real</b> e a <b class="text-blue-600">interpretabilidade</b> ainda são barreiras, mas a pesquisa avança rapidamente.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 12: Futuro -->
+     <section class="slide">
+        <div class="slide-content">
+            <h2 class="text-4xl mb-8 text-center">Perspetivas Futuras</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                 <div class="fade-in-item bg-white p-6 rounded-lg shadow-md">
+                     <h3 class="font-bold text-xl mb-2">IA Multimodal</h3>
+                     <p>Robôs que entendem visão, som e tato simultaneamente.</p>
+                 </div>
+                  <div class="fade-in-item bg-white p-6 rounded-lg shadow-md" style="transition-delay: 200ms;">
+                     <h3 class="font-bold text-xl mb-2">IA Explicável (XAI)</h3>
+                     <p>Modelos mais transparentes e seguros para aplicações críticas.</p>
+                 </div>
+                  <div class="fade-in-item bg-white p-6 rounded-lg shadow-md" style="transition-delay: 400ms;">
+                     <h3 class="font-bold text-xl mb-2">Hardware Neuromórfico</h3>
+                     <p>Chips especializados que imitam a eficiência energética do cérebro.</p>
+                 </div>
+                  <div class="fade-in-item bg-white p-6 rounded-lg shadow-md" style="transition-delay: 600ms;">
+                     <h3 class="font-bold text-xl mb-2">Aprendizado Federado</h3>
+                     <p>Robôs aprendendo em conjunto sem compartilhar dados sensíveis.</p>
+                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 13: Obrigado -->
+    <section class="slide bg-slate-800 text-white text-center">
+        <div class="slide-content">
+            <h2 class="text-8xl font-extrabold">Obrigado!</h2>
+            <p class="text-4xl mt-8">Perguntas?</p>
+        </div>
+    </section>
+
+    <!-- Navigation -->
+    <div class="progress-bar"></div>
+    <div id="prev-btn" class="nav-button">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+    </div>
+    <div id="next-btn" class="nav-button">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+    </div>
+    <div class="slide-counter"></div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const slides = document.querySelectorAll('.slide');
+        const nextBtn = document.getElementById('next-btn');
+        const prevBtn = document.getElementById('prev-btn');
+        const progressBar = document.querySelector('.progress-bar');
+        const slideCounter = document.querySelector('.slide-counter');
+        let currentSlide = 0;
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active');
+                if (i === index) {
+                    slide.classList.add('active');
+                    // Trigger animations for items in the new slide
+                    const items = slide.querySelectorAll('.fade-in-item');
+                    items.forEach((item, itemIndex) => {
+                        const delay = item.style.transitionDelay || '0ms';
+                        setTimeout(() => {
+                           item.style.opacity = '1';
+                           item.style.transform = 'translateY(0)';
+                        }, parseInt(delay) + 50); // small delay after slide becomes active
+                    });
+                } else {
+                    // Reset animations for items in inactive slides
+                    const items = slide.querySelectorAll('.fade-in-item');
+                    items.forEach(item => {
+                        item.style.opacity = '0';
+                        item.style.transform = 'translateY(20px)';
+                    });
+                }
+            });
+            updateControls();
+        }
+        
+        function updateControls() {
+            progressBar.style.width = `${((currentSlide + 1) / slides.length) * 100}%`;
+            slideCounter.textContent = `${currentSlide + 1} / ${slides.length}`;
+            prevBtn.style.display = currentSlide === 0 ? 'none' : 'flex';
+            nextBtn.style.display = currentSlide === slides.length - 1 ? 'none' : 'flex';
+        }
+
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                showSlide(currentSlide);
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                showSlide(currentSlide);
+            }
+        });
+        
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') {
+                nextBtn.click();
+            } else if (e.key === 'ArrowLeft') {
+                prevBtn.click();
+            }
+        });
+
+        // --- Chart.js ---
+        const activationCtx = document.getElementById('activationChart');
+        if (activationCtx) {
+            new Chart(activationCtx.getContext('2d'), {
+                type: 'line',
+                data: {
+                    labels: Array.from({ length: 21 }, (_, i) => ((i - 10) / 2).toFixed(1)),
+                    datasets: [
+                        { label: 'ReLU', data: Array.from({ length: 21 }, (_, i) => Math.max(0, (i - 10) / 2)), borderColor: '#3b82f6', tension: 0.1, borderWidth: 3 },
+                        { label: 'Sigmoid', data: Array.from({ length: 21 }, (_, i) => 1 / (1 + Math.exp(-((i - 10) / 2)))), borderColor: '#14b8a6', tension: 0.4, borderWidth: 3 },
+                        { label: 'Tanh', data: Array.from({ length: 21 }, (_, i) => Math.tanh((i - 10) / 2)), borderColor: '#f59e0b', tension: 0.4, borderWidth: 3 }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom' } },
+                    scales: { y: { title: { display: true, text: 'f(z)' } }, x: { title: { display: true, text: 'z' } } }
+                }
+            });
+        }
+        
+        // Initial setup
+        showSlide(currentSlide);
+    });
+</script>
+</body>
+</html>
+
