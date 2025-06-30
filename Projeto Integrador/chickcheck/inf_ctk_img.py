@@ -3,7 +3,6 @@ import torch
 import threading
 import customtkinter as ctk
 from PIL import Image
-import numpy as np
 from ultralytics import YOLO
 from motor import move_step_motor
 from inference import get_classes, get_classes_ids_from_parsed_results, get_parsed_results
