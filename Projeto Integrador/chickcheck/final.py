@@ -3,13 +3,13 @@ import torch
 import threading
 import customtkinter as ctk
 import serial
+import time
 from PIL import Image
 from ultralytics import YOLO
 from motor import move_dcmotor_serial
 from inference import get_classes, get_classes_ids_from_parsed_results, get_parsed_results
 from img_drawing import draw_masks_segmentation
 
-ser = serial.Serial("COM5", 9600)
 class YoloCameraApp:
     def __init__(self, root):
         self.root = root
@@ -75,19 +75,26 @@ class YoloCameraApp:
         self.tk_image = None  # CTkImage
         self.update_frame()
 
-    def listen_serial():        
+        self.ser = serial.Serial("COM5", 9600)
+        listener_thread = threading.Thread(target=self.listen_serial, daemon=True)
+        listener_thread.start()
+
+    def listen_serial(self):        
         while True:
-            if ser.in_waiting:
-                msg = ser.readline().decode().strip()
+            if self.ser.in_waiting:
+                msg = self.ser.readline().decode().strip()
                 print(f"Received: {msg}")
 
                 # Change behavior based on message
-                if msg == "start":
-                    motor_running = True
-                elif msg == "stop":
-                    motor_running = False
-    listener_thread = threading.Thread(target=listen_serial, daemon=True)
-    listener_thread.start()
+                if msg == "Ovo chegou, parando motor":
+                    if self.last_frame is not None:
+                        self.status_text.set("Status: Inference running...")
+                        time.sleep(5)
+                        self.last_inference_result = self.run_inference(self.last_frame)
+                        self.inference_mode = True
+                        self.status_text.set("Status: Inferência concluída")
+                elif msg == "Ovo não está na posicao inicial":
+                    self.status_text.set("Status: Posicione corretamente!")
     
     def load_yolov11_model(self):
         model = YOLO("seg50epcvr2.pt")
@@ -110,12 +117,12 @@ class YoloCameraApp:
             else:
                 self.tk_image.configure(light_image=img, dark_image=img)
 
-        # elif self.running and self.inference_mode:
-        #     annotated = cv2.resize(self.last_inference_result, display_size)
-        #     annotated = cv2.cvtColor(annotated, cv2.COLOR_BGR2RGB)
-        #     img = Image.fromarray(annotated)
+        elif self.running and self.inference_mode:
+            annotated = cv2.resize(self.last_inference_result, display_size)
+            annotated = cv2.cvtColor(annotated, cv2.COLOR_BGR2RGB)
+            img = Image.fromarray(annotated)
 
-        #     self.tk_image.configure(light_image=img, dark_image=img)
+            self.tk_image.configure(light_image=img, dark_image=img)
 
         # Schedule next update (every 30ms)
         self.root.after(30, self.update_frame)
@@ -128,12 +135,15 @@ class YoloCameraApp:
         image = cv2.imread("captured_image.jpg")
         # Run inference
         results = self.model(image)[0]
+        time.sleep(1)
         parsed_results = get_parsed_results(results)
         if parsed_results == "Nothing detected": 
             img = Image.open("captured_image.jpg")
             img_ctk = ctk.CTkImage(light_image=img, dark_image=img, size=(640, 640))
             self.photo_label.configure(image=img_ctk, text="")
             self.photo_label.image = img_ctk
+            print("Consumo")
+            move_dcmotor_serial(self.ser, "ovo para consumo")
         else:
             output_img = draw_masks_segmentation(image, parsed_results)
             cv2.imwrite("segmented_output.jpg", output_img)
@@ -141,40 +151,33 @@ class YoloCameraApp:
             img_ctk = ctk.CTkImage(light_image=img, dark_image=img, size=(640, 640))
             self.photo_label.configure(image=img_ctk, text="")
             self.photo_label.image = img_ctk
-        # ids_from_parsed_results = get_classes_ids_from_parsed_results(parsed_results)
-
-        # if 0 or 2 or 4 in ids_from_parsed_results:
-        #     print("Improprio")
-        #     move_step_motor(200)
-        # elif 3 in ids_from_parsed_results:
-        #     print("Proprio")
-        #     move_step_motor(300)
-        # else:
-        #     print("Consumo")
-        #     move_step_motor(400)
-        # Draw and save output
-        # return original
+            ids_from_parsed_results = get_classes_ids_from_parsed_results(parsed_results)
+            print(get_classes(self.model.names, results))
+            if 0 or 2 or 4 in ids_from_parsed_results:
+                print("Improprio")
+                move_dcmotor_serial(self.ser, "ovo improprio")
+            elif 3 in ids_from_parsed_results:
+                print("Proprio")
+                move_dcmotor_serial(self.ser, "ovo para incubar")
+            
+                
     
     def handle_start(self):
-        move_dcmotor_serial(ser, "start motor")
-        if self.last_frame is not None:
-            self.status_text.set("Status: Inference running...")
-            self.last_inference_result = self.run_inference(self.last_frame)
-            self.inference_mode = True
-            self.status_text.set("Status: Inference done")
+        move_dcmotor_serial(self.ser, "start motor")
+        self.status_text.set("Começo")
 
     def handle_stop(self):
-        move_dcmotor_serial(ser, "start motor")
+        move_dcmotor_serial(self.ser, "stop motor")
         self.status_text.set("Status: Stopped")
 
     def handle_reset(self):
-        move_dcmotor_serial(ser, "reset motor")
+        move_dcmotor_serial(self.ser, "reset motor")
         self.inference_mode = False
         self.status_text.set("Status: Live Camera")
 
     def exit_app(self):
         self.running = False
-        self.arduino.close()
+        self.ser.close()
         self.cap.release()
         self.root.destroy()
 

@@ -13,5 +13,6 @@ def move_step_motor(steps):
         if response == "DONE":
             print("Movimento completo")
             break
-    arduino.close()
 
+def move_dcmotor_serial(arduino, string):
+    arduino.write(f"{string}\n".encode())
