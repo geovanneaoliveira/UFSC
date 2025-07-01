@@ -88,7 +88,7 @@ class YoloCameraApp:
                 # Change behavior based on message
                 if msg == "Ovo chegou, parando motor":
                     if self.last_frame is not None:
-                        self.status_text.set("Status: Inference running...")
+                        self.status_text.set("Status: Inferência ocorrendo...")
                         time.sleep(5)
                         self.last_inference_result = self.run_inference(self.last_frame)
                         self.inference_mode = True
