@@ -3,8 +3,9 @@ import time
 
 # Update port to your Arduino's port
 
-def move_motor(steps):
-    arduino = serial.Serial('COM5', 9600, timeout=1)
+def move_motor():
+    steps = 2000
+    arduino = serial.Serial('COM6', 9600, timeout=1)
     time.sleep(2)  # Wait for Arduino to reset
     print(f"Moving motor {steps} steps")
     arduino.write(f"{steps}\n".encode())
@@ -16,3 +17,4 @@ def move_motor(steps):
     arduino.close()
 # Example usage
 
+move_motor()
