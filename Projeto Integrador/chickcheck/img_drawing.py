@@ -4,7 +4,7 @@ import numpy as np
 from ultralytics.engine.results import Annotator
 
 
-def draw_masks_segmentation(image, results, alpha=0.5, draw_boxes=True, draw_labels=True):
+def draw_masks_segmentation(model, image, results, alpha=0.5, draw_boxes=True, draw_labels=True):
     """
     Draws segmentation masks on an image from YOLOv11 segmentation model results.
 
@@ -51,7 +51,7 @@ def draw_masks_segmentation(image, results, alpha=0.5, draw_boxes=True, draw_lab
             cv2.rectangle(overlay, (x1, y1), (x2, y2), color, 2)
 
         if draw_labels and box is not None:
-            label = f'Class {class_id}'
+            label = f'Class {model.names[int(class_id)]}'
             if score is not None:
                 label += f' {score:.2f}'
             x1, y1 = map(int, box[:2])
