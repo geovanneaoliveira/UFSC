@@ -5,6 +5,9 @@ def get_parsed_results(results):
     if results.masks is None:
         return "Nothing detected"
     for seg, cls_id, conf, box in zip(results.masks.data, results.boxes.cls, results.boxes.conf, results.boxes.xyxy):
+        if int(cls_id) == 0:
+            print("falso positivo")
+            continue
         parsed_results.append({
             "class": int(cls_id),
             "score": float(conf),

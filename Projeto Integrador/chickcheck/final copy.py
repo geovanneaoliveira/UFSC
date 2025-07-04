@@ -28,9 +28,9 @@ class YoloCameraApp:
         self.control_frame = ctk.CTkFrame(self.root)
         self.control_frame.grid(row=0, column=0, sticky="nsew", padx=10, pady=10)
 
-        self.start_button = ctk.CTkButton(self.control_frame, text="Começar", command=self.handle_start, fg_color="green")
-        self.stop_button = ctk.CTkButton(self.control_frame, text="Parar", command=self.handle_stop, fg_color="red")
-        self.reset_button = ctk.CTkButton(self.control_frame, text="Reset", command=self.handle_reset, fg_color="yellow")
+        self.start_button = ctk.CTkButton(self.control_frame, text="Start (Take Photo)", command=self.handle_start)
+        self.stop_button = ctk.CTkButton(self.control_frame, text="Stop", command=self.handle_stop)
+        self.reset_button = ctk.CTkButton(self.control_frame, text="Reset", command=self.handle_reset)
 
         self.start_button.pack(pady=20, fill="x", padx=20)
         self.stop_button.pack(pady=20, fill="x", padx=20)
@@ -75,9 +75,9 @@ class YoloCameraApp:
         self.tk_image = None  # CTkImage
         self.update_frame()
 
-        self.ser = serial.Serial("COM5", 9600)
-        listener_thread = threading.Thread(target=self.listen_serial, daemon=True)
-        listener_thread.start()
+        # self.ser = serial.Serial("COM5", 9600)
+        # listener_thread = threading.Thread(target=self.listen_serial, daemon=True)
+        # listener_thread.start()
 
     def listen_serial(self):        
         while True:
@@ -89,7 +89,7 @@ class YoloCameraApp:
                 if msg == "Ovo chegou, parando motor":
                     if self.last_frame is not None:
                         self.status_text.set("Status: Inferência ocorrendo...")
-                        time.sleep(8)
+                        time.sleep(5)
                         self.last_inference_result = self.run_inference(self.last_frame)
                         self.inference_mode = True
                         self.status_text.set("Status: Inferência concluída")
@@ -97,7 +97,6 @@ class YoloCameraApp:
                     self.status_text.set("Status: Posicione corretamente!")
     
     def load_yolov11_model(self):
-        # model = YOLO("seg50epcvr2.pt")
         model = YOLO("yolo11nseg100.pt")
         model.eval()
         return model
@@ -105,7 +104,8 @@ class YoloCameraApp:
     def update_frame(self):
         screen_w = self.root.winfo_screenwidth()
         screen_h = self.root.winfo_screenheight()
-        display_size = (int(screen_w * 2 / 3), int(screen_h - 100))
+        # display_size = (int(screen_w * 2 / 3), int(screen_h - 100))
+        display_size = (320, 240)
         ret, frame = self.cap.read()
         if ret:
             self.last_frame = frame.copy()
@@ -118,12 +118,12 @@ class YoloCameraApp:
             else:
                 self.tk_image.configure(light_image=img, dark_image=img)
 
-        elif self.running and self.inference_mode:
-            annotated = cv2.resize(self.last_inference_result, display_size)
-            annotated = cv2.cvtColor(annotated, cv2.COLOR_BGR2RGB)
-            img = Image.fromarray(annotated)
+        # elif self.running and self.inference_mode:
+        #     annotated = cv2.resize(self.last_inference_result, display_size)
+        #     annotated = cv2.cvtColor(annotated, cv2.COLOR_BGR2RGB)
+        #     img = Image.fromarray(annotated)
 
-            self.tk_image.configure(light_image=img, dark_image=img)
+        #     self.tk_image.configure(light_image=img, dark_image=img)
 
         # Schedule next update (every 30ms)
         self.root.after(30, self.update_frame)
@@ -136,6 +136,7 @@ class YoloCameraApp:
         image = cv2.imread("captured_image.jpg")
         # Run inference
         results = self.model(image)[0]
+        time.sleep(1)
         parsed_results = get_parsed_results(results)
         if parsed_results == "Nothing detected": 
             img = Image.open("captured_image.jpg")
@@ -143,10 +144,9 @@ class YoloCameraApp:
             self.photo_label.configure(image=img_ctk, text="")
             self.photo_label.image = img_ctk
             print("Consumo")
-            # move_dcmotor_serial(self.ser, "ovo para incubar") 
-            move_dcmotor_serial(self.ser, "ovo para consumo")
+            # move_dcmotor_serial(self.ser, "ovo para consumo")
         else:
-            output_img = draw_masks_segmentation(model=self.model, image=image, results=parsed_results)
+            output_img = draw_masks_segmentation(image, parsed_results)
             cv2.imwrite("segmented_output.jpg", output_img)
             img = Image.open("segmented_output.jpg")
             img_ctk = ctk.CTkImage(light_image=img, dark_image=img, size=(640, 640))
@@ -154,32 +154,33 @@ class YoloCameraApp:
             self.photo_label.image = img_ctk
             ids_from_parsed_results = get_classes_ids_from_parsed_results(parsed_results)
             print(get_classes(self.model.names, results))
-            if 2 or 4 in ids_from_parsed_results:
+            if 0 or 2 or 4 in ids_from_parsed_results:
                 print("Improprio")
-                move_dcmotor_serial(self.ser, "ovo improprio")
+                # move_dcmotor_serial(self.ser, "ovo improprio")
             elif 3 in ids_from_parsed_results:
                 print("Proprio")
-                move_dcmotor_serial(self.ser, "ovo para incubar")
+                # move_dcmotor_serial(self.ser, "ovo para incubar")
             
-        
+                
+    
     def handle_start(self):
-        move_dcmotor_serial(self.ser, "start motor")
+        self.run_inference(self.last_frame)
         self.status_text.set("Começo")
 
     def handle_stop(self):
-        move_dcmotor_serial(self.ser, "stop motor")
+        # move_dcmotor_serial(self.ser, "stop motor")
         self.status_text.set("Status: Stopped")
 
     def handle_reset(self):
-        move_dcmotor_serial(self.ser, "reset motor")
-        self.photo_label = ctk.CTkLabel(self.video_frame, text="No photo yet")
-        self.photo_label.grid(row=2, column=0, sticky="nsew", padx=10, pady=(0, 10))
+        # move_dcmotor_serial(self.ser, "reset motor")
         self.inference_mode = False
+        self.photo_label.configure(image=0, text="")
+        self.photo_label.image = 0
         self.status_text.set("Status: Live Camera")
 
     def exit_app(self):
         self.running = False
-        self.ser.close()
+        # self.ser.close()
         self.cap.release()
         self.root.destroy()
 
