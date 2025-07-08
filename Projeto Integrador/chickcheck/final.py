@@ -31,10 +31,12 @@ class YoloCameraApp:
         self.start_button = ctk.CTkButton(self.control_frame, text="Começar", command=self.handle_start, fg_color="green")
         self.stop_button = ctk.CTkButton(self.control_frame, text="Parar", command=self.handle_stop, fg_color="red")
         self.reset_button = ctk.CTkButton(self.control_frame, text="Reset", command=self.handle_reset, fg_color="yellow")
+        self.force_embriao_button = ctk.CTkButton(self.control_frame, text="Inferência Forçada", command=self.handle_force, fg_color="purple")
 
         self.start_button.pack(pady=20, fill="x", padx=20)
         self.stop_button.pack(pady=20, fill="x", padx=20)
         self.reset_button.pack(pady=20, fill="x", padx=20)
+        self.force_embriao_button.pack(pady=20, fill="x", padx=20)
 
         # Right side: live video (top), separator, photo preview (bottom), and status
         self.video_frame = ctk.CTkFrame(self.root)
@@ -71,8 +73,10 @@ class YoloCameraApp:
         self.running = True
         self.inference_mode = False
         self.last_frame = None
+        self.image_last_inference = None
         self.last_inference_result = None
         self.tk_image = None  # CTkImage
+        self.image_forced_inference = None
         self.update_frame()
 
         self.ser = serial.Serial("COM5", 9600)
@@ -90,7 +94,7 @@ class YoloCameraApp:
                     if self.last_frame is not None:
                         self.status_text.set("Status: Inferência ocorrendo...")
                         time.sleep(8)
-                        self.last_inference_result = self.run_inference(self.last_frame)
+                        self.last_inference_result = self.run_inference(frame=self.last_frame)
                         self.inference_mode = True
                         self.status_text.set("Status: Inferência concluída")
                 elif msg == "Ovo não está na posicao inicial":
@@ -131,11 +135,19 @@ class YoloCameraApp:
 
     def run_inference(self, frame):
         # Save the captured frame as an image
-        cv2.imwrite("captured_image.jpg", frame)
-        print("Image captured and saved as captured_image.jpg")
-        image = cv2.imread("captured_image.jpg")
+        image = ""
+        if self.image_forced_inference is not None:
+            print("inferencia forcada")
+            image = cv2.imread("image_embriao.jpg")
+            print("imagem é forcada")
+        else:
+            cv2.imwrite("captured_image.jpg", frame)
+            image = cv2.imread("captured_image.jpg")
+            print("Image captured and saved as captured_image.jpg")
+        
         # Run inference
         results = self.model(image)[0]
+        self.image_forced_inference = None
         parsed_results = get_parsed_results(results)
         if parsed_results == "Nothing detected": 
             img = Image.open("captured_image.jpg")
@@ -153,16 +165,22 @@ class YoloCameraApp:
             self.photo_label.configure(image=img_ctk, text="")
             self.photo_label.image = img_ctk
             ids_from_parsed_results = get_classes_ids_from_parsed_results(parsed_results)
+            print(ids_from_parsed_results)
             print(get_classes(self.model.names, results))
-            if 2 or 4 in ids_from_parsed_results:
+            if 2 in ids_from_parsed_results or 4 in ids_from_parsed_results:
                 print("Improprio")
                 move_dcmotor_serial(self.ser, "ovo improprio")
-            elif 3 in ids_from_parsed_results:
+            else:
                 print("Proprio")
                 move_dcmotor_serial(self.ser, "ovo para incubar")
             
         
     def handle_start(self):
+        move_dcmotor_serial(self.ser, "start motor")
+        self.status_text.set("Começo")
+
+    def handle_force(self):
+        self.image_forced_inference = "cvr_egg2/valid/images/IMG_20241027_102109_TIMEBURST5_jpg.rf.c025cde9575089f8836858d35c4b25d9.jpg"
         move_dcmotor_serial(self.ser, "start motor")
         self.status_text.set("Começo")
 
