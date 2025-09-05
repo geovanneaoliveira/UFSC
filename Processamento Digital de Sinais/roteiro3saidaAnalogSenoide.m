@@ -5,9 +5,9 @@ dev = daqlist("ni").DeviceID;
 dqo = daq("ni");
 dqo.Rate = 500;
 outCh = addoutput(dqo,dev,0,"Voltage");
-theta  - linspace(0,2*pi,100);
+theta  - linspace(0,40*pi,2000);
 theta(end) = [];
-vout = sin(theta);
+vout = sin(theta');
 // plot(vout);
 preload(dqo,vout);
 // hz = frequencia de escrita / nro de pontos do periodo
