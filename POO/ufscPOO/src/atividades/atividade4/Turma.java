@@ -1,5 +1,8 @@
 package atividades.atividade4;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 public class Turma {
     private String codigo;
     private String nome;
@@ -32,10 +35,24 @@ public class Turma {
 
     public void mostraAlunosAprovados() {
         for (int i = 0; i < numAlunos; i++) {
-            if (alunos[i].aprovado()) {
+            if (alunos[i].getMedia()>=6) {
                 System.out.println(alunos[i]);
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Turma{" +
+                "codigo='" + codigo + '\'' +
+                ", nome='" + nome + '\'' +
+                ", alunos=" + Arrays.toString(
+                Arrays.stream(alunos)
+                        .filter(Objects::nonNull) // remove nulos
+                        .toArray()
+                ) +
+                ", numAlunos=" + numAlunos +
+                '}';
     }
 }
 
