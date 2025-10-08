@@ -3,7 +3,6 @@ package atividades.atividade6.parte5;
 public class Principal {
 	
 	public static void main(String[] args) throws InterruptedException {
-		
 		Dispositivo d1 = new MeuSensorR1();
         Dispositivo d2 = new MeuSensorR2();
         Dispositivo d3 = new MeuSensorR3();
