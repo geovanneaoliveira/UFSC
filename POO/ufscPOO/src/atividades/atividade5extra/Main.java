@@ -15,11 +15,11 @@ public class Main {
         System.out.println(caminhao1eixo);
         System.out.println(caminhao2eixo);
         Transporte moto150 = new Moto("mot1","mot1",10,100,200,150);
-        Transporte moto200 = new Moto("mot1","mot1",10,100,200,200);
+        Transporte moto200 = new Moto("mot2","mot2",10,100,200,200);
         System.out.println(moto150);
         System.out.println(moto200);
         Transporte onibus10pessoas = new Onibus("oni1","oni1",10,100,30,10,2);
-        Transporte onibus20pessoas = new Onibus("oni2","oni2",10,100,30,20,2);
+        Transporte onibus20pessoas = new Onibus("oni2","oni2",10,100,30,20,3);
         System.out.println(onibus10pessoas);
         onibus20pessoas.set
         System.out.println(onibus20pessoas);
