@@ -21,7 +21,6 @@ public class Main {
         Transporte onibus10pessoas = new Onibus("oni1","oni1",10,100,30,10,2);
         Transporte onibus20pessoas = new Onibus("oni2","oni2",10,100,30,20,3);
         System.out.println(onibus10pessoas);
-        onibus20pessoas.set
         System.out.println(onibus20pessoas);
     }
 }
