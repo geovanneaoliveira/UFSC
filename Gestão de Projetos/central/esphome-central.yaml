@@ -1,0 +1,75 @@
+esphome:
+  name: esphome-web-db7af0
+  friendly_name: ESPHome Sensores
+  min_version: 2025.9.0
+  name_add_mac_suffix: false
+
+esp32:
+  variant: esp32
+  framework:
+    type: esp-idf
+
+sensor:
+  - platform: dht
+    pin: GPIO23
+    temperature:
+      name: "Living Room Temperature"
+    humidity:
+      name: "Living Room Humidity"
+    update_interval: 2s
+output:
+  - platform: ledc
+    pin: GPIO17
+    id: buzzer
+switch:
+  - platform: gpio
+    name: "LED Vermelho 1"
+    pin: GPIO32
+  - platform: gpio
+    name: "LED Azul 1"
+    pin: GPIO33
+  - platform: gpio
+    name: "LED Vermelho 2"
+    pin: GPIO26
+  - platform: gpio
+    name: "LED Azul 2"
+    pin: GPIO13
+  - platform: template
+    name: "krb_switch_buzzer_virtual"
+    optimistic: true
+    turn_on_action:
+      - output.turn_on: buzzer
+      - output.ledc.set_frequency:
+          id: buzzer
+          frequency: "2441Hz"
+      - output.set_level:
+          id: buzzer
+          level: "75%"
+    turn_off_action:
+      - output.turn_off: buzzer
+binary_sensor:
+  - platform: gpio
+    pin: GPIO22
+    name: "PIR Sensor Interno"
+    device_class: motion
+
+  - platform: gpio
+    pin: GPIO21
+    name: "Gas Sensor"
+    device_class: smoke
+
+  - platform: gpio
+    pin: GPIO19
+    name: "PIR Sensor Externo"
+    device_class: motion
+
+logger:
+
+api: 
+
+ota:
+- platform: esphome
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
