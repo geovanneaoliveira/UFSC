@@ -1,0 +1,109 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam linetype ortho
+title Diagrama UML - Projeto Semáforo em State
+
+enum LightState {
+    VERDE
+    AMARELO
+    VERMELHO
+    OFF
+}
+
+interface ModoOperacao {
+    +getTempoVerde(): int
+    +getTempoAmarelo(): int
+    +getNome(): String
+}
+
+class ModoDiurno {
+    +getTempoVerde(): int
+    +getTempoAmarelo(): int
+    +getNome(): String
+}
+
+class ModoNoturno {
+    +getTempoVerde(): int
+    +getTempoAmarelo(): int
+    +getNome(): String
+}
+
+ModoOperacao <|.. ModoDiurno
+ModoOperacao <|.. ModoNoturno
+
+interface SemaforoState {
+    +executar(ctx: SemaforoController)
+}
+
+class EstadoVerde {
+    +executar(ctx: SemaforoController)
+}
+
+class EstadoAmarelo {
+    +executar(ctx: SemaforoController)
+}
+
+class EstadoVermelho {
+    +executar(ctx: SemaforoController)
+}
+
+class EstadoAlertaPisca {
+    +executar(ctx: SemaforoController)
+}
+
+SemaforoState <|.. EstadoVerde
+SemaforoState <|.. EstadoAmarelo
+SemaforoState <|.. EstadoVermelho
+SemaforoState <|.. EstadoAlertaPisca
+
+class SemaforoController {
+    -estadoAtual: SemaforoState
+    -painel: SemaforoPanel
+    -painelOposto: SemaforoPanel
+    -modo: ModoOperacao
+    -alerta: boolean
+    -running: boolean
+
+    +setEstado(novo: SemaforoState)
+    +setModo(modo: ModoOperacao)
+    +setAlerta(boolean)
+    +isAlerta(): boolean
+    +getModo()
+
+    +aplicarLuz(s: LightState)
+    +aplicarLuzOposto(s: LightState)
+    +esperar(ms: long)
+    +trocarControle()
+
+    +stop()
+    +run()
+}
+
+SemaforoController --> SemaforoState : usa >
+SemaforoController --> SemaforoPanel : controla >
+SemaforoController --> ModoOperacao : usa >
+SemaforoController --> LightState
+
+class SemaforoPanel {
+    -state: LightState
+    -rotulo: String
+    +setState(LightState)
+    +paintComponent(Graphics)
+}
+
+class MainFrame {
+    -norte: SemaforoPanel
+    -leste: SemaforoPanel
+    -controller: SemaforoController
+    -btnModo: JButton
+    -btnAlerta: JButton
+    -lblStatus: JLabel
+
+    +main()
+}
+
+MainFrame --> SemaforoController : inicializa >
+MainFrame --> SemaforoPanel : exibe >
+
+@enduml
