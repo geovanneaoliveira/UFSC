@@ -13,9 +13,9 @@ sensor:
   - platform: dht
     pin: GPIO23
     temperature:
-      name: "Living Room Temperature"
+      name: "Sensor de Temperatura"
     humidity:
-      name: "Living Room Humidity"
+      name: "Sensor de Umidade"
     update_interval: 2s
 output:
   - platform: ledc
