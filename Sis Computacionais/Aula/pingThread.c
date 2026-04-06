@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <time.h>
+#include <semaphore.h>
 
 #define TOTAL_IPS   30
 #define BUFFERSZ    5
@@ -14,6 +15,8 @@ static int in, out;
 static volatile int count;
 
 static const char format[] = "ping -c 1 -w 1 %s";
+
+pthread_mutex_t m = PTHREAD_MUTEX_INITIALIZER;
 
 /*
  * Realizando envio e recebimento do PING.
@@ -58,22 +61,26 @@ void getFromBuf(char *str, int consumer_id)
 {
     while (count == 0);
 
+    pthread_mutex_lock(&m);
     strncpy(str, buffer[out], STRLEN - 1);
     str[STRLEN - 1] = '\0';
 
     out = (out + 1) % BUFFERSZ;
     count--;
+    pthread_mutex_unlock(&m);
 }
 
 void setToBuf(const char *str)
 {
     while (count == BUFFERSZ);
 
+    
     strncpy(buffer[in], str, STRLEN - 1);
     buffer[in][STRLEN - 1] = '\0';
 
     in = (in + 1) % BUFFERSZ;
     count++;
+    pthread_mutex_unlock(&m);
 }
 
 /* Thread produtora */
