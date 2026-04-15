@@ -1,0 +1,21 @@
+close all;
+clear;
+clc;
+
+R1 = 100
+R2 = 100
+C1 = 1
+C2 = 1
+
+fc = 650;
+
+gaindb = 2;
+gainN = 10^(gaindb/20)
+
+r4r3 = gainN - 1
+
+
+C = 1/(2*pi*R2*fc)
+
+R = 1/(fc*2*pi*C)
+
