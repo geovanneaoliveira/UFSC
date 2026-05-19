@@ -1,5 +1,3 @@
-close all;
-
 %% ETAPA 3 - Controle
 
 % Lista portas disponiveis
@@ -48,13 +46,18 @@ linkaxes([axes1(1), axes1(2)], "x");
 y = zeros(N,1);
 e = zeros(N,1);
 u = zeros(N,1);
+r = zeros(N,1);
 
 % Parametros do estimador MQR
-rho = 500;
+rho = 1000;
 P = rho*eye(4);
 v = zeros(4,1);
+h = zeros(4,1);
 theta = zeros(4,N);
+erro = zeros(N);
 lambda = 0.95;
+
+
 
 % Comando para iniciar ensaio
 init_command = uint8([0, 1, 0, 0]);
@@ -77,16 +80,15 @@ for k = 4:N
     v = [u(k-1); u(k-2); -y(k-1); -y(k-2)];
 
     % Vetor de ganho h
-    h = P*v/ (lambda + (v'*P*v));
 
+    h = (P * v) / (lambda + (v' * P * v));
     % Atualizacao dos parametros
-    theta(:,k) = theta(:,k-1) + h*(y(k) - v.'*theta(:,k-1));
+
+     erro = (y - v.'*theta(:,k-1)); %% erro
+      theta(:,k) = theta(:,k-1) + h*(y(k) - v.'*theta(:,k-1));
 
     % Atualizacao da matriz P
-    P = (1/lambda) * (eye(4) - h*v')*P;
-
-    % erro
-    %e = (y - v.'*theta(:,k-1));
+    P = (1/lambda) * (eye(4) - h * v') * P;
 
     % sinal de controle (malha aberta)
     u(k) = r(k);
@@ -100,7 +102,7 @@ for k = 4:N
 
     % apresenta informacoes na tela
     fprintf('k = %3d\t y(%3d) = %4.2f\tDuty Cycle = %4d\ttempo = %2.0f ms\t(%1d)\n',...
-        k, k, y(k), duty_cycle, Dt, Dt < 1e3/fs);
+        k, k, y(k), duty_cycle, Dt, Dt < 1e3/fs)
 
     set(axes2(3),"ydata",theta(1,1:k), 'linestyle', '-', 'marker', 'none');
     set(axes2(4),"ydata",theta(2,1:k), 'linestyle', '-', 'marker', 'none', 'color', [0.4 0.4 1]);
@@ -123,5 +125,3 @@ fwrite(s, finish_command, 'uint8');
 fclose(s);
 
 save -mat7-binary 'ensaio_lab5_rls.mat' 'u' 'y' 'fs' 'theta' 'lambda' 'rho'
-
-
