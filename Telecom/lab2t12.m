@@ -9,7 +9,8 @@ numBits = 5e5;
    % Número de bits (alto para capturar erros em SNR alta) 
 EbNo_dB = 0:2:12;   
        % Vetor de valores de Eb/No em dB para a varredura 
-BER_sim = zeros(length(EbNo_dB), 1); % Vetor para armazenar os resultados simulados 
+BER_sim = zeros(length(EbNo_dB), 1);
+SER_sim = zeros(length(EbNo_dB), 1);% Vetor para armazenar os resultados simulados 
 fprintf('Iniciando simulação Monte Carlo para %d-PSK...\n', M); 
 % 2. Loop de Simulação para cada valor de Eb/No 
 for i = 1:length(EbNo_dB) 
@@ -31,7 +32,7 @@ bitsIn = randi([0 1], numBits, 1);
      
     % Cálculo empírico da Taxa de Erro de Bit (BER) 
     [~, BER_sim(i)] = biterr(bitsIn, bitsOut); 
-     
+    [~, SER_sim(i)] = symerr(simbolosIn, simbolosOut);
     fprintf('Eb/No = %2d dB | BER Simulada = %e\n', EbNo_dB(i), BER_sim(i)); 
 end 
  
@@ -51,7 +52,13 @@ semilogy(EbNo_dB, BER_sim, 'ro', 'MarkerSize', 8, 'LineWidth', 1.5); % Círculos
 grid on; 
 set(gca, 'YScale', 'log'); % Garante a escala logarítmica no eixo Y 
 axis([min(EbNo_dB) max(EbNo_dB) 1e-5 1]); % Limites de visualização dos eixos 
-legend('Teórico (Equação)', 'Simulado (Monte Carlo)', 'Location', 'southwest'); 
+legend('Teórico (PSK)','Teórico (QAM)', 'Simulado (Monte Carlo)'); 
 xlabel('E_b/N_0 (dB)'); 
 ylabel('Taxa de Erro de Bit (BER)'); 
 title(['Curva de Desempenho: ', num2str(M), '-PSK em Canal AWGN']);
+
+figure('Name','Relação BER e SER')
+semilogy(EbNo_dB, BER_sim, 'r');
+hold on;
+semilogy(EbNo_dB, SER_sim, 'b');
+legend('BER', 'SER');
