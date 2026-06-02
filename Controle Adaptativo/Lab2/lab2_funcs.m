@@ -1,8 +1,8 @@
-function [K, qsi, wn, L] = lab2_funcs(y, A, fs, method)
+function [K, ksi, wn, L] = lab2_funcs(y, A, fs, method)
     x = numel(y);
     ts = 1/fs;
     tempo = (0:x-1) * ts;
-    if(strcmp(method, "Standard"))
+    if(strcmp(method, "Subamortecido"))
 
         deltaY = y(end) - y(1);
         deltaX = A;
@@ -15,9 +15,9 @@ function [K, qsi, wn, L] = lab2_funcs(y, A, fs, method)
         overshoot = (yp- y(end))/y(end)* 100;
 
         a = log(overshoot/100)^2;
-        qsi = sqrt(a/(pi^2+ a));
+        ksi = sqrt(a/(pi^2+ a));
 
-        wn = pi / (tp * sqrt(1 - qsi^2));
+        wn = pi / (tp * sqrt(1 - ksi^2));
 
         L = 0;
 
@@ -75,16 +75,16 @@ function [K, qsi, wn, L] = lab2_funcs(y, A, fs, method)
         
         X = (t_45_interpolado - t_15_interpolado) / (t_75_interpolado - t_15_interpolado);
 
-        qsi = (0.0805 - 5.547 * (0.475 - X)^2) / (X - .356);
-        if(qsi < 1)
-            f2 = .708 * (2.811)^qsi;
+        ksi = (0.0805 - 5.547 * (0.475 - X)^2) / (X - .356);
+        if(ksi < 1)
+            f2 = .708 * (2.811)^ksi;
         else
-            f2 = 2.6*qsi - 0.60;
+            f2 = 2.6*ksi - 0.60;
         end
         
         wn = f2 / (t_75_interpolado - t_15_interpolado);
 
-        f3 = 0.922 * (1.66)^qsi;
+        f3 = 0.922 * (1.66)^ksi;
 
         L = t_45_interpolado - f3 / wn;
 

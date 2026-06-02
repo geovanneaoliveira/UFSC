@@ -10,6 +10,7 @@ numBits = 6e5;
 EbNo_dB = 0:2:18;   
        % Vetor de valores de Eb/No em dB para a varredura 
 BER_sim = zeros(length(EbNo_dB), 1); % Vetor para armazenar os resultados simulados 
+SER_sim = zeros(length(EbNo_dB), 1);
 fprintf('Iniciando simulação Monte Carlo para %d-PSK...\n', M); 
 % 2. Loop de Simulação para cada valor de Eb/No 
 for i = 1:length(EbNo_dB) 
@@ -31,7 +32,7 @@ bitsIn = randi([0 1], numBits, 1);
      
     % Cálculo empírico da Taxa de Erro de Bit (BER) 
     [~, BER_sim(i)] = biterr(bitsIn, bitsOut); 
-      
+    [~, SER_sim(i)] = symerr(simbolosIn, simbolosOut);
     fprintf('Eb/No = %2d dB | BER Simulada = %e | SER = %e\n', EbNo_dB(i), BER_sim(i), SER_sim(i)); 
 end 
  
@@ -52,3 +53,21 @@ legend('Teórico (Equação)', 'Simulado (Monte Carlo)', 'Location', 'southwest'
 xlabel('E_b/N_0 (dB)'); 
 ylabel('Taxa de Erro de Bit (BER)'); 
 title(['Curva de Desempenho: ', num2str(M), '-QAM em Canal AWGN']);
+
+figure;
+semilogy(EbNo_dB, BER_sim,'r','LineWidth',2); hold on;
+semilogy(EbNo_dB, SER_sim,'b','LineWidth',2);
+grid on;
+xlabel('Eb/N0 (dB)');
+ylabel('Erro');
+title('64-QAM: BER vs SER');
+legend('BER','SER');
+
+% Relação SER/BER em alta SNR
+idx_high = find(EbNo_dB >= 14);
+
+ratio = mean(SER_sim(idx_high) ./ BER_sim(idx_high));
+
+fprintf('\n Relação SER/BER\n');
+fprintf('SER = %.3f * BER\n', ratio);
+fprintf('Esperado teórico: %.0f\n', k);
