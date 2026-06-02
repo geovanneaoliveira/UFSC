@@ -1,4 +1,4 @@
-%% ETAPA 3 - Controle
+%% ETAPA 3 - Controle com Dahlin Adaptativo
 
 % Lista portas disponiveis
 portas = serialportlist();
@@ -20,12 +20,12 @@ pause(1);
 
 % Cria figura e subplots
 figure('units', 'centimeters', 'position', [3 1.5 25 13]);
-axes1(1) = subplot(2,1,1); box on; grid on; xlabel('tempo (s)');
+axes1(1) = subplot(2,2,1); box on; grid on; xlabel('tempo (s)');
 axes2(1) = line(axes1(1),"xdata",tempo,"ydata",nan(1,numel(tempo)));
 axes2(2) = line(axes1(1),"xdata",tempo,"ydata",nan(1,numel(tempo)));
 legend(axes1(1),'entrada','saida');
 
-axes1(2) = subplot(2,1,2); box on; grid on; xlabel('tempo (s)');
+axes1(2) = subplot(2,2,2); box on; grid on; xlabel('tempo (s)');
 axes2(3) = line(axes1(2),"xdata",tempo,"ydata",nan(1,numel(tempo)));
 axes2(4) = line(axes1(2),"xdata",tempo,"ydata",nan(1,numel(tempo)));
 
@@ -34,36 +34,30 @@ axes2(8) = line(axes1(2),"xdata",tempo,"ydata",nan(1,numel(tempo)));
 
 legend(axes1(2),'b_1','b_2', 'a_1', 'a_2');
 
-##axes1(3) = subplot(2,2,3); box on; grid on; xlabel('tempo (s)');
-##axes2(5) = line(axes1(3),"xdata",tempo,"ydata",nan(1,numel(tempo)));
-##axes2(6) = line(axes1(3),"xdata",tempo,"ydata",nan(1,numel(tempo)));
-##legend(axes1(3),'sinal de controle', 'sinal de erro');
+axes1(3) = subplot(2,2,3); box on; grid on; xlabel('tempo (s)');
+axes2(5) = line(axes1(3),"xdata",tempo,"ydata",nan(1,numel(tempo)));
+axes2(6) = line(axes1(3),"xdata",tempo,"ydata",nan(1,numel(tempo)));
+legend(axes1(3),'sinal de controle', 'sinal de erro');
 
-##linkaxes([axes1(1), axes1(2), axes1(3)], "x");
-linkaxes([axes1(1), axes1(2)], "x");
+linkaxes([axes1(1), axes1(2), axes1(3)], "x");
 
 % Sistema de controle
 y = zeros(N,1);
 e = zeros(N,1);
 u = zeros(N,1);
-r = zeros(N,1);
 
 % Parametros do estimador MQR
-rho = 1000;
+rho = 500;
 P = rho*eye(4);
 v = zeros(4,1);
-h = zeros(4,1);
 theta = zeros(4,N);
-erro = zeros(N);
 lambda = 0.95;
-
-
 
 % Comando para iniciar ensaio
 init_command = uint8([0, 1, 0, 0]);
 fwrite(s, init_command, 'uint8');
 
-for k = 4:N
+for k = 3:N
 
     % Espera ate que o primeiro resultado esteja disponivel
     while(get(s,'BytesAvailable')<6); end;
@@ -76,22 +70,20 @@ for k = 4:N
 
     % --------------------------------------------------------------------------
     % ESTIMADOR MQR
-    % Atualiza vetor u
-    v = [u(k-1); u(k-2); -y(k-1); -y(k-2)];
 
-    % Vetor de ganho h
 
-    h = (P * v) / (lambda + (v' * P * v));
-    % Atualizacao dos parametros
+    % CONTROLADOR
+    e(k) = r(k) - y(k);
 
-     erro = (y - v.'*theta(:,k-1)); %% erro
-      theta(:,k) = theta(:,k-1) + h*(y(k) - v.'*theta(:,k-1));
+    if (tempo(k) <= 5)
+      u(k) = r(k);
+    else
+      b1 = theta(1,k);
+      b2 = theta(2,k);
+      a1 = theta(3,k);
+      a2 = theta(4,k);
+    endif;
 
-    % Atualizacao da matriz P
-    P = (1/lambda) * (eye(4) - h * v') * P;
-
-    % sinal de controle (malha aberta)
-    u(k) = r(k);
     % --------------------------------------------------------------------------
 
     duty_cycle = uint16(double(u(k))/5 * PWM_RESOLUTION);
@@ -102,7 +94,7 @@ for k = 4:N
 
     % apresenta informacoes na tela
     fprintf('k = %3d\t y(%3d) = %4.2f\tDuty Cycle = %4d\ttempo = %2.0f ms\t(%1d)\n',...
-        k, k, y(k), duty_cycle, Dt, Dt < 1e3/fs)
+        k, k, y(k), duty_cycle, Dt, Dt < 1e3/fs);
 
     set(axes2(3),"ydata",theta(1,1:k), 'linestyle', '-', 'marker', 'none');
     set(axes2(4),"ydata",theta(2,1:k), 'linestyle', '-', 'marker', 'none', 'color', [0.4 0.4 1]);
@@ -113,8 +105,8 @@ for k = 4:N
     set(axes2(2), "ydata", y(1:k), 'linestyle', '-', 'marker', 'none', 'color', [0.4 0.4 1]);
     drawnow;
 
-##    set(axes2(5), "ydata", u(1:k), 'linestyle', '-', 'marker', 'none');
-##    set(axes2(6), "ydata", e(1:k), 'linestyle', '-', 'marker', 'none', 'color', [0.4 0.4 1]);
+    set(axes2(5), "ydata", u(1:k), 'linestyle', '-', 'marker', 'none');
+    set(axes2(6), "ydata", e(1:k), 'linestyle', '-', 'marker', 'none', 'color', [0.4 0.4 1]);
     drawnow;
 end
 
@@ -124,4 +116,6 @@ fwrite(s, finish_command, 'uint8');
 
 fclose(s);
 
-save -mat7-binary 'ensaio_lab5_rls.mat' 'u' 'y' 'fs' 'theta' 'lambda' 'rho'
+save -mat7-binary  'ensaio_lab6_atividade4b.mat' 'r' 'y' 'e' 'u' 'theta' 'fs'
+
+

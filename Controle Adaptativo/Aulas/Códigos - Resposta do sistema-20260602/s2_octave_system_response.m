@@ -5,29 +5,20 @@ pkg load signal;
 
 % Sinal de entrada
 % -------------------------------------------------------------------------
-tmax = 50;
-tempo = 0:1/fs:(tmax-1/fs);
+f0 = 2; % frequencia da onda quadrada
+
+Ts = 1/fs;
+
+tmax = 5;
+tempo = 0:Ts:tmax-Ts;
 N = numel(tempo);
 
-r = 2*ones(1,N);
-r = r + 0.5*rand(1,N);
-
-
-##f0 = 2;
-##x = sin(2*pi*f0/fs*[0:N-1])+2.5;
-##
-##freq = 0.5;
-##duty = 50;
-##r = 1+0.5*square(2*pi*freq.*tempo,duty);
-
-##r(1:20) = 0;
-##r = r(:);
-##r(end-40:end) = 0;
-
+f0 = 4;
+x = 0.5*(square(2*pi*f0*tempo) + 2);
 
 figure;
-plot(tempo, r,'Color',[0.3922 0.4745 0.6353]); hold on;
-plot(tempo, r,'k.');
+plot(tempo, x,'Color',[0.3922 0.4745 0.6353]); hold on;
+plot(tempo, x,'k.');
 xlabel('tempo ($s$)','fontsize',11,'interpreter','latex');
 ylabel('Amplitude ($V$)','fontsize',11,'interpreter','latex');
 ylim([0, 5]);
@@ -36,16 +27,16 @@ clc;
 fprintf('Duracao do sinal: %d segundos\n', tmax);
 
 % Conventer amplitude para valor do duty cycle do sinal PWM
-ru = uint16((r/5)*PWM_RESOLUTION);
+xu = uint16((x/5)*PWM_RESOLUTION);
 
 % Codigo em C definindo o vetor com amostras do sinal de entrada
 fprintf('\n#define N %d\n', N);
 fprintf('uint16_t x[N] = {');
-for k = 1:numel(ru)
+for k = 1:numel(xu)
     if k ~= N
-        fprintf('%3d, ', ru(k));
+        fprintf('%3d, ', xu(k));
     else
-        fprintf('%3d};\n', ru(k));
+        fprintf('%3d};\n', xu(k));
     end
 
     if ~mod(k,10)
