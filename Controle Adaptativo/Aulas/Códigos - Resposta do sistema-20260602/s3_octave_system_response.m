@@ -28,18 +28,33 @@ fwrite(s, init_command, 'uint8');
 while(get(s,'BytesAvailable')<2); end;
 
 % Le os resultados do ensaio (saida do sistema)
-yu = zeros(N,1);
+y = zeros(N,1);
 for k = 1:N
-    rx_buffer = uint8(fread(s,2))';
-    sample = typecast(rx_buffer(1:2),'uint16');
+    rx_buffer = uint8(fread(s,4))';
+    sample = typecast(rx_buffer(1:4),'single');
 
-    yu(k) = sample;
+    y(k) = sample;
 end
 
+coef_b1 = zeros(N,1);
+for k = 1:N
+    rx_buffer = uint8(fread(s,4))';
+    sample = typecast(rx_buffer(1:4),'single');
+
+    coef_b1(k) = sample;
+end
+
+coef_a1 = zeros(N,1);
+for k = 1:N
+    rx_buffer = uint8(fread(s,4))';
+    sample = typecast(rx_buffer(1:4),'single');
+
+    coef_a1(k) = sample;
+end
 fclose(s);
 
 % Conversao do valor do ADC para amplitude em volts da saida do sistema
-y = yu*5/1023;
+%y = yu*5/1023;
 
 % Apresenta resultados
 f1 = figure('unit','centimeters', 'position', [2 3 15 9]);
@@ -54,4 +69,15 @@ legend({'Entrada', 'Sa\''ida'});%, 'Location','best','Interpreter','latex', 'Fon
 
 ylim([0, 1.1*max(max(x),max(y))]);
 
-save -mat7-binary 'ensaio_lab5.mat' 'x' 'y' 'fs'
+% Apresenta resultados
+f2 = figure('unit','centimeters', 'position', [2 3 15 9]);
+a2 = axes(); hold(a2,'on'); box(a2,'on'); grid(a2,'on');
+
+plot(tempo, coef_b1);
+plot(tempo, coef_a1);
+
+xlabel('tempo ($s$)','fontsize',11,'interpreter','latex');
+ylabel('Amplitude ($V$)','fontsize',11,'interpreter','latex');
+legend({'Entrada', 'Sa\''ida'});%, 'Location','best','Interpreter','latex', 'FontSize', 10);
+
+
