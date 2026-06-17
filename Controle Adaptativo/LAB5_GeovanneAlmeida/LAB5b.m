@@ -1,34 +1,36 @@
 clear;
 clc;
 
-pkg load control;
+%% pkg load control;
 
 % Arquivo com entrada e saida do sistema
-load('mqr_sistema_1.mat');
-x = x(:);
+load('ensaio_lab5_rls.mat')
+x = u(:);
 y = y(:);
 
 %% Estimador de minimos quadrados recursivo
 N = numel(x);
 
-rho = 1;
+rho = 100;
 P = rho*eye(4);
 u = zeros(4,1);
 
 theta = zeros(4,N);
+lambda = 0.95;
 
 for n = 3:N
 
     % Atualiza vetor u
-
+    u = [x(n-1);  x(n-2); -y(n-1);  -y(n-2)];
 
     % Vetor de ganho h
-
+    h = P*u/(lambda+u'*P*u);
 
     % Atualizacao dos parametros
     theta(:,n) = theta(:,n-1) + h*(y(n) - u.'*theta(:,n-1));
 
     % Atualizacao da matriz P
+    P = (eye(4) - h*u')*P/lambda;
 
 end
 
