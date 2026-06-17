@@ -1,8 +1,6 @@
 clear;
 clc;
 
-pkg load control;
-pkg load signal;
 
 %% Sistema 1
 K = 1;
@@ -58,7 +56,7 @@ y = zeros(1,N);
 
 
 %%
-rho = 1;
+rho = 500;
 P = rho*eye(4);
 u = zeros(4,1);
 
@@ -72,28 +70,30 @@ for n = 3:N
     y(n) = b1(n)*x(n-1) + b2(n)*x(n-2) - a1(n)*y(n-1) -a2(n)*y(n-2);
 
     % atualizacao vetor u
-
+    u = [x(n-1);  x(n-2); -y(n-1);  -y(n-2)];
 
     % vetor de ganho h
-
+    h = P*u/(lambda+u'*P*u);
 
     % Atualizacao dos parametros
-
+    theta(:,n) = theta(:,n-1) + h*(y(n) - u.'*theta(:,n-1));
 
     % atualizacao da matriz P
-
+    P = (eye(4) - h*u')*P/lambda;
 
 end
 
 
 % Resultados
 figure;
-stairs(tempo, theta');
+stairs(tempo, theta', 'LineWidth', 1.5);
 hold on;
 plot(tempo, b1, 'k:');
 plot(tempo, b2, 'k:');
 plot(tempo, a1, 'k:');
 plot(tempo, a2, 'k:');
 legend('b_1', 'b_2', 'a_1', 'a_2');
-xlabel('tempo (s)');
+xlabel('Tempo (s)');
+ylabel('Valores de estimação')
+title('Estimação dos parâmetros da planta')
 grid on;
