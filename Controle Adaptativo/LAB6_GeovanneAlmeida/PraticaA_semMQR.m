@@ -16,7 +16,7 @@ clc;
 %   e  -> sinal de erro (r - y)                 [Nx1]
 %   fs -> frequência de amostragem utilizada    [Hz]
 % ------------------------------------------------------
-dados = load('ensaio_lab6_atividade4aJonny.mat');
+dados = load('ensaio_lab6_atividade4a.mat');
 
 fs = dados.fs;
 T  = 1/fs;
@@ -33,15 +33,16 @@ tempo = (0:N-1) * T;
 
 % Resultados
 figure;
-plot(tempo, r, 'color', 'k');
+plot(tempo, r, 'color', 'k','LineWidth', 1.5);
 hold on;
-plot(tempo, y, 'color', [1 0.4 0.4]);
-legend('referência', 'saída');
+plot(tempo, y, 'color', [1 0.4 0.4],'LineWidth', 1.5);
+
+legend('Referência', 'Saída');
 grid on;
 
 figure;
-plot(tempo, e);
+plot(tempo, e,'LineWidth', 1.5);
 hold on;
-plot(tempo, u);
-legend('sinal de erro', 'sinal de controle');
+plot(tempo, u,'LineWidth', 1.5);
+legend('Sinal de erro', 'Sinal de controle');
 grid on;

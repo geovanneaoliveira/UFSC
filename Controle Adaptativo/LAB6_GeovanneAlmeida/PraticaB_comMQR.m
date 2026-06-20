@@ -41,24 +41,24 @@ tempo = (0:N-1) * T;
 
 % Resultados
 figure;
-plot(tempo, r, 'color', 'k');
+plot(tempo, r, 'color', 'k','LineWidth', 1.5);
 hold on;
-plot(tempo, y, 'color', [1 0.4 0.4]);
-legend('referência', 'saída');
+plot(tempo, y, 'color', [1 0.4 0.4],'LineWidth', 1.5);
+legend('Referência', 'Saída');
 grid on;
 
 figure;
-plot(tempo, e);
+plot(tempo, e,'LineWidth', 1.5);
 hold on;
-plot(tempo, u);
-legend('sinal de erro', 'sinal de controle');
+plot(tempo, u,'LineWidth', 1.5);
+legend('Sinal de erro', 'Sinal de controle');
 grid on;
 
 figure;
-plot(tempo, theta(1,:));
+plot(tempo, theta(1,:),'LineWidth', 1.5);
 hold on;
-plot(tempo, theta(2,:));
-plot(tempo, theta(3,:));
-plot(tempo, theta(4,:));
+plot(tempo, theta(2,:),'LineWidth', 1.5);
+plot(tempo, theta(3,:),'LineWidth', 1.5);
+plot(tempo, theta(4,:),'LineWidth', 1.5);
 legend('b_1', 'b_2', 'a_1', 'a_2');
 grid on;
